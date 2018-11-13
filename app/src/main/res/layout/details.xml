@@ -54,10 +54,11 @@
         android:layout_marginLeft="22dp"
         android:layout_marginRight="247dp"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="16dp"
         android:text="$10.00"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toEndOf="@+id/priceTitle"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTitle" />
 
@@ -81,22 +82,66 @@
         android:layout_marginLeft="18dp"
         android:layout_marginRight="251dp"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="16dp"
         android:text="Goldie"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toEndOf="@+id/sellerTitle"
         app:layout_constraintTop_toBottomOf="@+id/priceInput" />
 
-    <!--<RatingBar-->
-        <!--android:id="@+id/ratingBar"-->
-        <!--android:layout_width="236dp"-->
-        <!--android:layout_height="44dp"-->
-        <!--android:scaleX="0.5"-->
-        <!--android:scaleY="0.5"-->
-        <!--android:transformPivotX="0dp"-->
-        <!--android:transformPivotY="0dp"-->
-        <!--tools:layout_editor_absoluteX="110dp"-->
-        <!--tools:layout_editor_absoluteY="256dp" />-->
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="236dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:transformPivotX="0dp"
+        android:transformPivotY="0dp"
+        app:layout_constraintStart_toEndOf="@+id/ratingTitle"
+        app:layout_constraintTop_toBottomOf="@+id/sellerNameInput" />
+
+    <TextView
+        android:id="@+id/ratingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="18dp"
+        android:text="Rating:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sellerTitle" />
+
+    <TextView
+        android:id="@+id/detailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="29dp"
+        android:text="Details:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingTitle" />
+
+    <TextView
+        android:id="@+id/detailsInput"
+        android:layout_width="314dp"
+        android:layout_height="225dp"
+        android:layout_marginBottom="58dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="52dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="25dp"
+        android:text="This item is soooooo cool please buy me!!!!!!!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTitle" />
 
 </android.support.constraint.ConstraintLayout>

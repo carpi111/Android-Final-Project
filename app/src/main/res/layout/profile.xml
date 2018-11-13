@@ -48,23 +48,24 @@
         android:layout_marginLeft="144dp"
         android:layout_marginRight="22dp"
         android:layout_marginStart="144dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:scaleX="0.5"
         android:scaleY="0.5"
         android:transformPivotY="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationText" />
 
     <ScrollView
-        android:layout_width="395dp"
-        android:layout_height="338dp"
-        android:layout_marginBottom="9dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="348dp"
+        android:layout_height="363dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="11dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,9 +75,34 @@
             android:id="@+id/profileLinLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
         </LinearLayout>
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/edit" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="96dp"
+        android:layout_height="84dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginLeft="144dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/person" />
 
 </android.support.constraint.ConstraintLayout>
