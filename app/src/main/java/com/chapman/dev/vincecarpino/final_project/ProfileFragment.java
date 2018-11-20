@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ProfileActivity extends Fragment {
+public class ProfileFragment extends Fragment {
 
     @Nullable
     @Override
