@@ -14,23 +14,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SearchFragment extends Fragment {
+public class AddItemFragment extends Fragment {
     private Spinner categorySpinner;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.search, container, false);
-        categorySpinner = rootView.findViewById(R.id.categorySpinner);
-
+        View rootView = inflater.inflate(R.layout.new_item, container, false);
+        categorySpinner = rootView.findViewById(R.id.newItemCategorySpinner);
         setUpCategorySpinner();
-
         return rootView;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     public void setUpCategorySpinner()

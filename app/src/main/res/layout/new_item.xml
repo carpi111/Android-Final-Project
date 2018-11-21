@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout8"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/newItemNameInput"
+        android:layout_width="300dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="160dp"
+        android:ems="10"
+        android:hint="Item Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/dollarSpinner"
+        android:layout_width="116dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/newItemNameInput" />
+
+    <Spinner
+        android:id="@+id/centSpinner"
+        android:layout_width="111dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newItemNameInput" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="19dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:text="$"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/dollarSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newItemNameInput" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="52dp"
+        android:gravity="bottom"
+        android:text="."
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/centSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/newItemNameInput" />
+
+    <Spinner
+        android:id="@+id/newItemCategorySpinner"
+        android:layout_width="300dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dollarSpinner" />
+
+    <EditText
+        android:id="@+id/newItemDescriptionInput"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="159dp"
+        android:layout_marginTop="53dp"
+        android:ems="10"
+        android:hint="Item Description"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newItemCategorySpinner" />
+
+    <ImageButton
+        android:id="@+id/newItemSaveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
