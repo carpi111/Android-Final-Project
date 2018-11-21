@@ -25,8 +25,7 @@ public class MainActivity extends Activity {
                     transaction.replace(R.id.container, new FeedFragment());
                     break;
                 case (R.id.navigation_search):
-                    // TODO: Add search layout
-                    transaction.replace(R.id.container, new ProfileFragment());
+                    transaction.replace(R.id.container, new SearchFragment());
                     break;
                 case (R.id.navigation_notifications):
                     transaction.replace(R.id.container, new NotificationsFragment());
