@@ -4,10 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +24,7 @@ public class LoginActivity extends Activity {
     private TextView createAccountText;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
@@ -40,33 +42,37 @@ public class LoginActivity extends Activity {
             }
         });
 
-//        createAccountText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                public Dialog onCreateDialog(Bundle savedInstanceState) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                    // Get the layout inflater
-//                    LayoutInflater inflater = getActivity().getLayoutInflater();
-//
-//                    // Inflate and set the layout for the dialog
-//                    // Pass null as the parent view because its going in the dialog layout
-//                    builder.setView(inflater.inflate(R.layout.dialog_signin, null))
-//                            // Add action buttons
-//                            .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    // sign in the user ...
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    LoginDialogFragment.this.getDialog().cancel();
-//                                }
-//                            });
-//                    return builder.create();
-//                }
-//            }
-//        });
+        createAccountText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreateAccountDialog();
+            }
+        });
 
+    }
+
+    public void showCreateAccountDialog()
+    {
+        final EditText usernameDialog;
+        usernameDialog = findViewById(R.id.username);
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.create_account_dialog, null))
+                // Add action buttons
+                .setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.e("login",usernameDialog.getText().toString());
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                }).show();
+        //return builder.create();
     }
 }
