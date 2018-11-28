@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -23,10 +25,22 @@ public class LoginActivity extends Activity {
     private EditText passwordInput;
     private TextView createAccountText;
 
+    private Cursor c;
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        Database db = new Database(this);
+
+//        c = db.getReadableDatabase().rawQuery("INSERT INTO User(Username, Password, Rating) VALUES(\"goldie\", \"gold\", 5.0);", null);
+
+        c = db.getReadableDatabase().rawQuery("SELECT * FROM User", null);
+
+        c.moveToFirst();
+
+        Log.e("DATA RETURN PLEASE", DatabaseUtils.dumpCursorToString(c));
 
         loginBtn = findViewById(R.id.loginBtn);
         usernameInput = findViewById(R.id.usernameInput);

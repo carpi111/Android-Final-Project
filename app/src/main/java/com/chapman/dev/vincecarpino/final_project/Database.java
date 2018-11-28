@@ -1,10 +1,10 @@
 package com.chapman.dev.vincecarpino.final_project;
 
-import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
+import android.database.sqlite.*;
 
-public class Database extends Activity {
-    SQLiteDatabase database;
+public class Database extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "ChappyFAFS";
 
     // insertIntoTable
 
@@ -12,25 +12,57 @@ public class Database extends Activity {
 
     // selectFromTable
 
-    public Database() {
-        database = openOrCreateDatabase("ChappyFAFS", MODE_PRIVATE, null);
+    public Database(Context context) {
+        super(context, DATABASE_NAME, null, 1);
+    }
 
-        database.execSQL("CREATE TABLE IF NOT EXISTS User("
-                + "ID INT PRIMARY KEY AUTOINCREMENT,"
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS User("
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " Username VARCHAR,"
                 + " Password VARCHAR,"
                 + " Rating DECIMAL(1,1))");
 
-        database.execSQL("CREATE TABLE IF NOT EXISTS Product("
-                + "ID INT PRIMARY KEY AUTOINCREMENT,"
+        db.execSQL("CREATE TABLE IF NOT EXISTS Product("
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " Name VARCHAR,"
                 + " Description VARCHAR,"
-                + " CategoryID INT,"
-                + " SellerID INT,"
+                + " CategoryID INTEGER,"
+                + " SellerID INTEGER,"
                 + " Price DECIMAL(4,2));");
 
-        database.execSQL("CREATE TABLE IF NOT EXISTS Category("
-                + "ID INT PRIMARY KEY AUTOINCREMENT,"
+        db.execSQL("CREATE TABLE IF NOT EXISTS Category("
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "Name VARCHAR);");
     }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+//    private static void createDatabase() {
+//        database = SQLiteDatabase.openOrCreateDatabase("ChappyFAFS", MODE_PRIVATE, null);
+//    }
+//
+//    private void createTables() {
+//        database.execSQL("CREATE TABLE IF NOT EXISTS User("
+//                + "ID INT PRIMARY KEY AUTOINCREMENT,"
+//                + " Username VARCHAR,"
+//                + " Password VARCHAR,"
+//                + " Rating DECIMAL(1,1))");
+//
+//        database.execSQL("CREATE TABLE IF NOT EXISTS Product("
+//                + "ID INT PRIMARY KEY AUTOINCREMENT,"
+//                + " Name VARCHAR,"
+//                + " Description VARCHAR,"
+//                + " CategoryID INT,"
+//                + " SellerID INT,"
+//                + " Price DECIMAL(4,2));");
+//
+//        database.execSQL("CREATE TABLE IF NOT EXISTS Category("
+//                + "ID INT PRIMARY KEY AUTOINCREMENT,"
+//                + "Name VARCHAR);");
+//    }
 }
