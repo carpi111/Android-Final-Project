@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -34,13 +35,27 @@ public class LoginActivity extends Activity {
 
         Database db = new Database(this);
 
-//        c = db.getReadableDatabase().rawQuery("INSERT INTO User(Username, Password, Rating) VALUES(\"goldie\", \"gold\", 5.0);", null);
+        String sql = "INSERT INTO User(Username, Password, Rating) VALUES(?, ?, ?);";
+        SQLiteStatement stmt = db.getReadableDatabase().compileStatement(sql);
+        stmt.bindString(1, "goldie");
+        stmt.bindString(2, "gold");
+        stmt.bindDouble(3, 5.0);
 
-        c = db.getReadableDatabase().rawQuery("SELECT * FROM User", null);
+        stmt.executeInsert();
 
-        c.moveToFirst();
+//        c = db.getReadableDatabase().rawQuery(sql, null);
 
-        Log.e("DATA RETURN PLEASE", DatabaseUtils.dumpCursorToString(c));
+//        c = db.getReadableDatabase().rawQuery("SELECT * FROM User", null);
+
+//        while (!c.isAfterLast()) {
+//            int id = c.getInt(1);
+//            String name = c.getString(2);
+//            String pass = c.getString(3);
+//
+//            Log.e("\n\n\nDATA RETURN", Integer.toString(id) + ", " + name + ", " + pass);
+//
+//            c.moveToNext();
+//        }
 
         loginBtn = findViewById(R.id.loginBtn);
         usernameInput = findViewById(R.id.usernameInput);

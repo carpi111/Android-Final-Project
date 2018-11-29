@@ -18,23 +18,29 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS User("
+        String sql = "CREATE TABLE IF NOT EXISTS User("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " Username VARCHAR,"
                 + " Password VARCHAR,"
-                + " Rating DECIMAL(1,1))");
+                + " Rating DECIMAL(1,1))";
+        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
+        stmt.execute();
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS Product("
+        sql = "CREATE TABLE IF NOT EXISTS Product("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " Name VARCHAR,"
                 + " Description VARCHAR,"
                 + " CategoryID INTEGER,"
                 + " SellerID INTEGER,"
-                + " Price DECIMAL(4,2));");
+                + " Price DECIMAL(4,2));";
+        stmt = this.getWritableDatabase().compileStatement(sql);
+        stmt.execute();
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS Category("
+        sql = "CREATE TABLE IF NOT EXISTS Category("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "Name VARCHAR);");
+                + "Name VARCHAR);";
+        stmt = this.getWritableDatabase().compileStatement(sql);
+        stmt.execute();
     }
 
     @Override
