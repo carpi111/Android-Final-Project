@@ -1,17 +1,13 @@
 package com.chapman.dev.vincecarpino.final_project;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,27 +31,24 @@ public class LoginActivity extends Activity {
 
         Database db = new Database(this);
 
-        String sql = "INSERT INTO User(Username, Password, Rating) VALUES(?, ?, ?);";
-        SQLiteStatement stmt = db.getReadableDatabase().compileStatement(sql);
-        stmt.bindString(1, "goldie");
-        stmt.bindString(2, "gold");
-        stmt.bindDouble(3, 5.0);
+        String table = "User";
+        String[] columnsToReturn = { "Username", "Password" };
+        String selection = "Username=?";
+        String[] selectionArgs = { "goldie" };
+//        Cursor c = db.getReadableDatabase().query(table, columnsToReturn, selection, selectionArgs, null, null, null);
+        Cursor c = db.getReadableDatabase().rawQuery("SELECT * FROM User WHERE Username=?", new String[] { "goldie" });
 
-        stmt.executeInsert();
+        c.moveToFirst();
 
-//        c = db.getReadableDatabase().rawQuery(sql, null);
-
-//        c = db.getReadableDatabase().rawQuery("SELECT * FROM User", null);
-
-//        while (!c.isAfterLast()) {
-//            int id = c.getInt(1);
-//            String name = c.getString(2);
-//            String pass = c.getString(3);
-//
-//            Log.e("\n\n\nDATA RETURN", Integer.toString(id) + ", " + name + ", " + pass);
-//
-//            c.moveToNext();
-//        }
+        try {
+            do {
+                Log.e("\n\nDATA SELECT", c.getInt(1) + ", " + c.getString(2) + ", " + c.getString(3));
+            } while (c.moveToNext());
+        } catch (Exception e) {
+            Log.e("\n\nDATABASE TESTING", e.getMessage());
+        } finally {
+            c.close();
+        }
 
         loginBtn = findViewById(R.id.loginBtn);
         usernameInput = findViewById(R.id.usernameInput);
