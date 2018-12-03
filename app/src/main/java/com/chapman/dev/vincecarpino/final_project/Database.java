@@ -1,10 +1,10 @@
 package com.chapman.dev.vincecarpino.final_project;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.*;
 
 public class Database extends SQLiteOpenHelper {
-    private SQLiteStatement stmt;
     private static final String DATABASE_NAME = "ChappyFAFS";
     private static final String[] categories = {
             "Art",
@@ -39,7 +39,7 @@ public class Database extends SQLiteOpenHelper {
 
         if (getCountOfCategoryTable() != categories.length) {
             String sql = "DROP TABLE IF EXISTS Category;";
-            stmt = this.getWritableDatabase().compileStatement(sql);
+            SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
             stmt.executeUpdateDelete();
 
             createCategoryTable();
@@ -48,69 +48,58 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
+
     private void createUserTable() {
         String sql = "CREATE TABLE IF NOT EXISTS User("
-                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + " Username VARCHAR,"
-                + " Password VARCHAR,"
-                + " Rating DECIMAL(1,1));";
-        stmt = this.getWritableDatabase().compileStatement(sql);
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "Username VARCHAR, "
+                + "Password VARCHAR, "
+                + "Rating DECIMAL(1,1));";
+        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
         stmt.execute();
     }
 
     private void createProductTable() {
         String sql = "CREATE TABLE IF NOT EXISTS Product("
-                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + " Name VARCHAR,"
-                + " Description VARCHAR,"
-                + " CategoryID INTEGER,"
-                + " SellerID INTEGER,"
-                + " Price DECIMAL(4,2));";
-        stmt = this.getWritableDatabase().compileStatement(sql);
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "Name VARCHAR, "
+                + "Description VARCHAR, "
+                + "CategoryID INTEGER, "
+                + "SellerID INTEGER, "
+                + "Price DECIMAL(4,2));";
+        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
         stmt.execute();
     }
 
     private void createCategoryTable() {
         String sql = "CREATE TABLE IF NOT EXISTS Category("
-                + "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "Name VARCHAR);";
-        stmt = this.getWritableDatabase().compileStatement(sql);
+        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
         stmt.execute();
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
-
-    public void insertIntoUser(String username, String password, float rating) {
-        String sql = "INSERT INTO User(Username, Password, Rating) VALUES(?,?,?);";
+    public void insertIntoUser(User u) {
+        String sql = "INSERT INTO User(Username, Password) VALUES(?,?);";
         SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-        stmt.bindString(1, username);
-        stmt.bindString(2, password);
-        stmt.bindDouble(3, rating);
+        stmt.bindString(1, u.getUsername());
+        stmt.bindString(2, u.getPassword());
 
         stmt.executeInsert();
     }
 
-    public void insertIntoProduct(String name, String description, int categoryID, int sellerID, float price) {
+    public void insertIntoProduct(Product p) {
         String sql = "INSERT INTO Product(Name, Desription, CategoryID, SellerID, Price) VALUES(?,?,?,?,?);";
         SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-        stmt.bindString(1, name);
-        stmt.bindString(2, description);
-        stmt.bindDouble(3, categoryID);
-        stmt.bindDouble(4, sellerID);
-        stmt.bindDouble(5, price);
+        stmt.bindString(1, p.getName());
+        stmt.bindString(2, p.getDescription());
+        stmt.bindDouble(3, p.getCategoryId());
+        stmt.bindDouble(4, p.getSellerId());
+        stmt.bindDouble(5, p.getPrice());
 
         stmt.executeInsert();
-    }
-
-    public void populateCategoryTable() {
-        for (String c : categories) {
-            String sql = "INSERT INTO Category(Name) VALUES(?);";
-            SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-            stmt.bindString(1, c);
-
-            stmt.executeInsert();
-        }
     }
 
     private long getCountOfCategoryTable() {
@@ -118,6 +107,16 @@ public class Database extends SQLiteOpenHelper {
         SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
 
         return stmt.simpleQueryForLong();
+    }
+
+    private void populateCategoryTable() {
+        for (String c : categories) {
+            String sql = "INSERT INTO Category(Name) VALUES(?);";
+            SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
+            stmt.bindString(1, c);
+
+            stmt.executeInsert();
+        }
     }
 
     public void deleteProduct(int id) {
@@ -132,6 +131,34 @@ public class Database extends SQLiteOpenHelper {
         String username = stmt.simpleQueryForString();
 
         return username;
+    }
+
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM User WHERE ID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
+
+        User user = new User();
+
+        user.setId(Integer.valueOf(c.getString(1)));
+        user.setUsername(c.getString(2));
+        user.setPassword(c.getString(3));
+        user.setRating(Float.valueOf(c.getString(4)));
+
+        c.close();
+
+        return user;
+    }
+
+    public int checkIfUserExists(String username, String password) {
+        int idOfResult;
+        String sql = "SELECT * FROM User WHERE Username=? AND Password=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { username, password });
+
+        idOfResult = c.getCount() == 0 ? -1 : Integer.valueOf(c.getString(1));
+
+        c.close();
+
+        return idOfResult;
     }
 
 //    public ArrayList<String> getProductDetails(int id)
