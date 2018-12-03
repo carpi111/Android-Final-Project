@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,50 +17,44 @@ import android.widget.TextView;
 
 public class LoginActivity extends Activity {
 
-    private Button loginBtn;
+    private Button   loginBtn;
     private EditText usernameInput;
     private EditText passwordInput;
+
+    private EditText createAcctUsernameInput;
+    private EditText createAcctPasswordInput;
+    private EditText createAcctConfPassInput;
     private TextView createAccountText;
 
     private Cursor c;
+    Database db = new Database(this);
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Database db = new Database(this);
-
-        String table = "User";
-        String[] columnsToReturn = { "Username", "Password" };
-        String selection = "Username=?";
-        String[] selectionArgs = { "goldie" };
-//        Cursor c = db.getReadableDatabase().query(table, columnsToReturn, selection, selectionArgs, null, null, null);
-        Cursor c = db.getReadableDatabase().rawQuery("SELECT * FROM User WHERE Username=?", new String[] { "goldie" });
-
-        c.moveToFirst();
-
-        try {
-            do {
-                Log.e("\n\nDATA SELECT", c.getInt(1) + ", " + c.getString(2) + ", " + c.getString(3));
-            } while (c.moveToNext());
-        } catch (Exception e) {
-            Log.e("\n\nDATABASE TESTING", e.getMessage());
-        } finally {
-            c.close();
-        }
-
-        loginBtn = findViewById(R.id.loginBtn);
-        usernameInput = findViewById(R.id.usernameInput);
-        passwordInput = findViewById(R.id.passwordInput);
+        loginBtn          = findViewById(R.id.loginBtn);
+        usernameInput     = findViewById(R.id.usernameInput);
+        passwordInput     = findViewById(R.id.passwordInput);
         createAccountText = findViewById(R.id.createAccountText);
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String usernameString = usernameInput.getText().toString();
+                String passwordString = passwordInput.getText().toString();
 
-                Intent goToFeed = new Intent(getApplicationContext(), FeedActivity.class);
-                startActivity(goToFeed);
+                int result = db.checkIfUserExists(usernameString, passwordString);
+
+                if (result == -1) {
+                    showInvalidCredentialsDialog();
+                } else {
+                    Intent goToFeed = new Intent(getApplicationContext(), FeedActivity.class);
+                    goToFeed.putExtra("UserId", result);
+                    startActivity(goToFeed);
+                }
             }
         });
 
@@ -69,31 +64,72 @@ public class LoginActivity extends Activity {
                 showCreateAccountDialog();
             }
         });
-
     }
 
-    public void showCreateAccountDialog()
-    {
-        final EditText usernameDialog;
-        usernameDialog = findViewById(R.id.username);
+    public void showCreateAccountDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        // Get the layout inflater
         LayoutInflater inflater = this.getLayoutInflater();
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.create_account_dialog, null))
-                // Add action buttons
                 .setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.e("login",usernameDialog.getText().toString());
+                        // TODO: find out why this doesn't work
+//                        createAcctUsernameInput = findViewById(R.id.username);
+//                        createAcctPasswordInput = findViewById(R.id.password);
+//                        createAcctConfPassInput = findViewById(R.id.passwordConfirmation);
+//
+//                        String usernameString = createAcctUsernameInput.getText().toString();
+//                        String passwordString = createAcctPasswordInput.getText().toString();
+//                        String confPassString = createAcctConfPassInput.getText().toString();
+//
+//                        if (!anyInputsAreEmpty() && passwordString.equals(confPassString)) {
+//                            User newUser = new User(usernameString, passwordString);
+//
+//                            db.insertIntoUser(newUser);
+//                        }
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
+                    public void onClick(DialogInterface dialog, int id) { }
                 }).show();
         //return builder.create();
     }
+
+    private void showInvalidCredentialsDialog() {
+        new AlertDialog.Builder(LoginActivity.this)
+                .setMessage("We couldn't find an account with that info.\n\nWould you like to create one now?")
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                })
+                .setPositiveButton("SURE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: go to create account page
+                        showCreateAccountDialog();
+                    }
+                }).show();
+    }
+
+    private boolean anyInputsAreEmpty() {
+        return createAcctUsernameInput.getText().toString().trim().equals("")
+                || createAcctPasswordInput.getText().toString().trim().equals("")
+                || createAcctConfPassInput.getText().toString().trim().equals("");
+    }
+
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            anyInputsAreEmpty();
+        }
+    };
 }
