@@ -27,6 +27,16 @@ public class Database extends SQLiteOpenHelper {
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
+
+//        if (getCountOfCategoryTable() != categories.length) {
+//            String sql = "DROP TABLE IF EXISTS Category;";
+//            SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
+//            stmt.executeUpdateDelete();
+//
+//            createCategoryTable();
+//
+//            populateCategoryTable();
+//        }
     }
 
     @Override
@@ -36,16 +46,6 @@ public class Database extends SQLiteOpenHelper {
         createProductTable();
 
         createCategoryTable();
-
-        if (getCountOfCategoryTable() != categories.length) {
-            String sql = "DROP TABLE IF EXISTS Category;";
-            SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-            stmt.executeUpdateDelete();
-
-            createCategoryTable();
-
-            populateCategoryTable();
-        }
     }
 
     @Override
@@ -88,6 +88,8 @@ public class Database extends SQLiteOpenHelper {
         stmt.bindString(2, u.getPassword());
 
         stmt.executeInsert();
+
+        // TODO: return id of new user
     }
 
     public void insertIntoProduct(Product p) {
@@ -154,7 +156,9 @@ public class Database extends SQLiteOpenHelper {
         String sql = "SELECT * FROM User WHERE Username=? AND Password=?;";
         Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { username, password });
 
-        idOfResult = c.getCount() == 0 ? -1 : Integer.valueOf(c.getString(1));
+        c.moveToFirst();
+
+        idOfResult = c.getCount() == 0 ? -1 : c.getInt(1);
 
         c.close();
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +40,6 @@ public class LoginActivity extends Activity {
         passwordInput     = findViewById(R.id.passwordInput);
         createAccountText = findViewById(R.id.createAccountText);
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,9 +51,9 @@ public class LoginActivity extends Activity {
                 if (result == -1) {
                     showInvalidCredentialsDialog();
                 } else {
-                    Intent goToFeed = new Intent(getApplicationContext(), FeedActivity.class);
-                    goToFeed.putExtra("UserId", result);
-                    startActivity(goToFeed);
+                    Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+                    goToMain.putExtra("UserId", result);
+                    startActivity(goToMain);
                 }
             }
         });
@@ -77,6 +77,7 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // TODO: find out why this doesn't work
+
 //                        createAcctUsernameInput = findViewById(R.id.username);
 //                        createAcctPasswordInput = findViewById(R.id.password);
 //                        createAcctConfPassInput = findViewById(R.id.passwordConfirmation);
@@ -89,7 +90,12 @@ public class LoginActivity extends Activity {
 //                            User newUser = new User(usernameString, passwordString);
 //
 //                            db.insertIntoUser(newUser);
+//
+//                            Log.e("LOGIN", "WE MADE ITTTTT");
 //                        }
+
+                        Intent goToFeed = new Intent(getApplicationContext(), FeedActivity.class);
+                        startActivity(goToFeed);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -108,7 +114,6 @@ public class LoginActivity extends Activity {
                 .setPositiveButton("SURE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO: go to create account page
                         showCreateAccountDialog();
                     }
                 }).show();
