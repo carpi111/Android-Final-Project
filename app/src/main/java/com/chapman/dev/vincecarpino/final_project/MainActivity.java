@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 public class MainActivity extends Activity {
 
@@ -42,6 +43,9 @@ public class MainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+
+        Toolbar actionbar = findViewById(R.id.action_bar);
+        setActionBar(actionbar);
 
         BottomNavigationView menu;
 
