@@ -6,7 +6,7 @@ import android.database.sqlite.*;
 
 //TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
-
+    private static int CURRENT_USER_ID = -1;
     SQLiteDatabase myDB;
     private static final String DATABASE_NAME = "ChappyFAFS";
     private static final String[] categories = {
@@ -31,14 +31,14 @@ public class Database extends SQLiteOpenHelper {
     public Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
         //myDB = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-        SQLiteDatabase.CursorFactory factory = new SQLiteDatabase.CursorFactory() {
-            @Override
-            public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver masterQuery, String editTable, SQLiteQuery query) {
-                return null;
-            }
-        };
-
-        myDB = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, factory, null);
+//        SQLiteDatabase.CursorFactory factory = new SQLiteDatabase.CursorFactory() {
+//            @Override
+//            public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver masterQuery, String editTable, SQLiteQuery query) {
+//                return null;
+//            }
+//        };
+//
+//        myDB = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, factory, null);
 
 //        if (getCountOfCategoryTable() != categories.length) {
 //            String sql = "DROP TABLE IF EXISTS Category;";
@@ -175,6 +175,26 @@ public class Database extends SQLiteOpenHelper {
         c.close();
 
         return idOfResult;
+    }
+
+    public int getCategoryIdByName(String name) {
+        int idOfResult;
+        String sql = "SELECT ID FROM Category WHERE Name=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { name });
+
+        c.moveToFirst();
+
+        idOfResult = c.getInt(1);
+
+        c.close();
+
+        return idOfResult;
+    }
+
+//    public void setCurrentUserId()
+
+    public int getCurrentUserId() {
+        return CURRENT_USER_ID;
     }
 
 //    public ArrayList<String> getProductDetails(int id)
