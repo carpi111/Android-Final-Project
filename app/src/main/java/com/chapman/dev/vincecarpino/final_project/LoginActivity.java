@@ -69,33 +69,38 @@ public class LoginActivity extends Activity {
     public void showCreateAccountDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         LayoutInflater inflater = this.getLayoutInflater();
+        final View root = inflater.inflate(R.layout.create_account_dialog, null);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.create_account_dialog, null))
+        builder.setView(root)
                 .setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: find out why this doesn't work
+                        Log.e("LOGIN", "WE MADE ITTTTT");
 
-//                        createAcctUsernameInput = findViewById(R.id.username);
-//                        createAcctPasswordInput = findViewById(R.id.password);
-//                        createAcctConfPassInput = findViewById(R.id.passwordConfirmation);
-//
-//                        String usernameString = createAcctUsernameInput.getText().toString();
-//                        String passwordString = createAcctPasswordInput.getText().toString();
-//                        String confPassString = createAcctConfPassInput.getText().toString();
-//
-//                        if (!anyInputsAreEmpty() && passwordString.equals(confPassString)) {
-//                            User newUser = new User(usernameString, passwordString);
-//
+                        createAcctUsernameInput = root.findViewById(R.id.username);
+                        createAcctPasswordInput = root.findViewById(R.id.password);
+                        createAcctConfPassInput = root.findViewById(R.id.passwordConfirmation);
+
+                        String usernameString = createAcctUsernameInput.getText().toString();
+                        String passwordString = createAcctPasswordInput.getText().toString();
+                        String confPassString = createAcctConfPassInput.getText().toString();
+
+                        Log.e("LOGIN", usernameString);
+                        Log.e("LOGIN", passwordString);
+                        Log.e("LOGIN", confPassString);
+
+                        if (!anyInputsAreEmpty() && passwordString.equals(confPassString)) {
+                            User newUser = new User(usernameString, passwordString);
+
 //                            db.insertIntoUser(newUser);
-//
-//                            Log.e("LOGIN", "WE MADE ITTTTT");
-//                        }
 
-                        Intent goToFeed = new Intent(getApplicationContext(), FeedActivity.class);
-                        startActivity(goToFeed);
+                            Log.e("LOGIN", "WE MADE ITTTTT");
+                        }
+
+//                        Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
+//                        startActivity(goToMain);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
