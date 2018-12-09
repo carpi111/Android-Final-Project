@@ -4,7 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
 
+//TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
+
+    SQLiteDatabase myDB;
     private static final String DATABASE_NAME = "ChappyFAFS";
     private static final String[] categories = {
             "Art",
@@ -27,6 +30,15 @@ public class Database extends SQLiteOpenHelper {
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        //myDB = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase.CursorFactory factory = new SQLiteDatabase.CursorFactory() {
+            @Override
+            public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver masterQuery, String editTable, SQLiteQuery query) {
+                return null;
+            }
+        };
+
+        myDB = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, factory, null);
 
 //        if (getCountOfCategoryTable() != categories.length) {
 //            String sql = "DROP TABLE IF EXISTS Category;";
