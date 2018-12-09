@@ -26,6 +26,8 @@ public class AddItemFragment extends Fragment {
     private EditText    itemDescInput;
     private ImageButton itemSaveButton;
 
+    private Database db = new Database(getContext());
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +60,6 @@ public class AddItemFragment extends Fragment {
         ArrayAdapter<String> adapter;
 
         String[] allCategories = new String[] {
-                "All Categories",
                 "Art",
                 "Books",
                 "Clothing",
@@ -86,17 +87,12 @@ public class AddItemFragment extends Fragment {
         itemSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newItemName = getEditTextString(itemNameInput);
+                // TODO: Create new item and add to DB
+                String newItemName  = getEditTextString(itemNameInput);
                 String newItemPrice = getEditTextString(itemPriceInput);
-                String newItemCat = categorySpinner.getSelectedItem().toString();
-                String newItemDesc = getEditTextString(itemDescInput);
-
-
-
-                Log.e("NEW ITEM", getEditTextString(itemNameInput));
-                Log.e("NEW ITEM", getEditTextString(itemPriceInput));
-                Log.e("NEW ITEM", categorySpinner.getSelectedItem().toString());
-                Log.e("NEW ITEM", getEditTextString(itemDescInput));
+                String newItemCat   = getSelectedSpinnerItem(categorySpinner);
+                int newItemCatId    = db.getCategoryIdByName(newItemCat);
+                String newItemDesc  = getEditTextString(itemDescInput);
             }
         });
     }
@@ -109,6 +105,10 @@ public class AddItemFragment extends Fragment {
 
     private String getEditTextString(EditText e) {
         return e.getText().toString();
+    }
+
+    private String getSelectedSpinnerItem(Spinner s) {
+        return s.getSelectedItem().toString();
     }
 
     TextWatcher watcher = new TextWatcher() {

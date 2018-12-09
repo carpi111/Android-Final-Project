@@ -77,26 +77,17 @@ public class LoginActivity extends Activity {
                 .setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.e("LOGIN", "WE MADE ITTTTT");
-
                         createAcctUsernameInput = root.findViewById(R.id.username);
                         createAcctPasswordInput = root.findViewById(R.id.password);
                         createAcctConfPassInput = root.findViewById(R.id.passwordConfirmation);
 
                         String usernameString = createAcctUsernameInput.getText().toString();
                         String passwordString = createAcctPasswordInput.getText().toString();
-                        String confPassString = createAcctConfPassInput.getText().toString();
 
-                        Log.e("LOGIN", usernameString);
-                        Log.e("LOGIN", passwordString);
-                        Log.e("LOGIN", confPassString);
-
-                        if (!anyInputsAreEmpty() && passwordString.equals(confPassString)) {
+                        if (!anyInputsAreEmpty() && createAccountPasswordsIdentical()) {
                             User newUser = new User(usernameString, passwordString);
 
-//                            db.insertIntoUser(newUser);
-
-                            Log.e("LOGIN", "WE MADE ITTTTT");
+                            db.insertIntoUser(newUser);
                         }
 
 //                        Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
@@ -128,6 +119,10 @@ public class LoginActivity extends Activity {
         return createAcctUsernameInput.getText().toString().trim().equals("")
                 || createAcctPasswordInput.getText().toString().trim().equals("")
                 || createAcctConfPassInput.getText().toString().trim().equals("");
+    }
+
+    private boolean createAccountPasswordsIdentical() {
+        return createAcctPasswordInput.getText().toString().equals(createAcctConfPassInput.getText().toString());
     }
 
     private TextWatcher watcher = new TextWatcher() {

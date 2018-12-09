@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toolbar;
 
@@ -54,5 +55,9 @@ public class MainActivity extends Activity {
         menu.setOnNavigationItemSelectedListener(listener);
 
         menu.setSelectedItemId(R.id.navigation_home);
+
+        int currentUserId = getIntent().getIntExtra("UserId", -1);
+
+        Log.e("MAIN", String.valueOf(currentUserId));
     }
 }

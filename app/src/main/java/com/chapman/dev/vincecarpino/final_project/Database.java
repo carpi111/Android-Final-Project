@@ -3,6 +3,7 @@ package com.chapman.dev.vincecarpino.final_project;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
+import android.util.Log;
 
 //TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
@@ -170,7 +171,7 @@ public class Database extends SQLiteOpenHelper {
 
         c.moveToFirst();
 
-        idOfResult = c.getCount() == 0 ? -1 : c.getInt(1);
+        idOfResult = c.getCount() == 0 ? -1 : c.getInt(0);
 
         c.close();
 
