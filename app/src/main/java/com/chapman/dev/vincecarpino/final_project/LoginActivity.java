@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +26,6 @@ public class LoginActivity extends Activity {
     private EditText createAcctConfPassInput;
     private TextView createAccountText;
 
-    private Cursor c;
     Database db = Database.getInstance(this);
 
     @Override
@@ -71,8 +69,6 @@ public class LoginActivity extends Activity {
         LayoutInflater inflater = this.getLayoutInflater();
         final View root = inflater.inflate(R.layout.create_account_dialog, null);
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(root)
                 .setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
                     @Override
