@@ -2,6 +2,7 @@ package com.chapman.dev.vincecarpino.final_project;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -45,6 +46,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
+        //Database db = new Database(this);
+
         Toolbar actionbar = findViewById(R.id.action_bar);
         setActionBar(actionbar);
 
@@ -58,6 +61,7 @@ public class MainActivity extends Activity {
 
         int currentUserId = getIntent().getIntExtra("UserId", -1);
 
-        Log.e("MAIN", String.valueOf(currentUserId));
+        //Log.e("MAIN", String.valueOf(currentUserId));
+        Database.setCurrentUserId(currentUserId);
     }
 }
