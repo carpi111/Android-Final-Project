@@ -14,6 +14,8 @@ import android.widget.Toolbar;
 
 public class MainActivity extends Activity {
 
+    // TODO: Fix all the layout issues
+
     private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

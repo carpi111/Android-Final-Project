@@ -4,22 +4,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
-import android.provider.CalendarContract;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-//TODO: SERVICE????????????????
-//TODO: profile rating needs to be average .. add to database running avg
+// TODO: profile rating needs to be average .. add to database running avg
 public class Database extends SQLiteOpenHelper {
-    private Context context;
     private static int CURRENT_USER_ID = -1;
     private static Database sInstance;
     private static final String DATABASE_NAME  = "ChappyFAFS";
     private static final String USER_TABLE     = "User";
     private static final String PRODUCT_TABLE  = "Product";
     private static final String CATEGORY_TABLE = "Category";
-    private static final String[] userColumns = {
+    private static final String[] userColumns  = {
             "Username",
             "Password",
             "Rating"
@@ -29,7 +26,8 @@ public class Database extends SQLiteOpenHelper {
             "Description",
             "CategoryID",
             "SellerID",
-            "Price"
+            "Price",
+            "IsSold"
     };
     private static final String[] categories = {
             "Art",
@@ -46,22 +44,8 @@ public class Database extends SQLiteOpenHelper {
             "Sporting Goods"
     };
 
-    // deleteFromTable
-
-    // selectFromTable
-
     private Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        this.context = context;
-        //myDB = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-//        SQLiteDatabase.CursorFactory factory = new SQLiteDatabase.CursorFactory() {
-//            @Override
-//            public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver masterQuery, String editTable, SQLiteQuery query) {
-//                return null;
-//            }
-//        };
-//
-//        myDB = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, factory, null);
 
 //        if (getCountOfCategoryTable() != categories.length) {
 //            String sql = "DROP TABLE IF EXISTS Category;";
@@ -75,9 +59,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public static synchronized Database getInstance(Context context) {
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
         if (sInstance == null) {
             sInstance = new Database(context);
         }
@@ -108,8 +89,6 @@ public class Database extends SQLiteOpenHelper {
                 + "Password VARCHAR, "
                 + "Rating DECIMAL(1,1));";
         db.execSQL(sql);
-//        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-//        stmt.execute();
     }
 
     private void createProductTable(SQLiteDatabase db) {
@@ -119,10 +98,9 @@ public class Database extends SQLiteOpenHelper {
                 + "Description VARCHAR, "
                 + "CategoryID INTEGER, "
                 + "SellerID INTEGER, "
-                + "Price DECIMAL(4,2));";
+                + "Price DECIMAL(4,2), "
+                + "IsSold TINYINT(1));";
         db.execSQL(sql);
-//        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-//        stmt.execute();
     }
 
     private void createCategoryTable(SQLiteDatabase db) {
@@ -132,8 +110,6 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(sql);
 
         populateCategoryTable(db);
-//        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-//        stmt.execute();
     }
 
     public void insertIntoUser(User u) {
@@ -147,9 +123,6 @@ public class Database extends SQLiteOpenHelper {
             values.put(userColumns[0], u.getUsername());
             values.put(userColumns[1], u.getPassword());
             values.put(userColumns[2], 0f);
-            values.put("Username", u.getUsername());
-            values.put("Password", u.getPassword());
-            values.put("Rating", 0f);
 
             db.insertOrThrow(USER_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -158,13 +131,6 @@ public class Database extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-//
-//        String sql = "INSERT INTO User(Username, Password) VALUES(?,?);";
-//        SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-//        stmt.bindString(1, u.getUsername());
-//        stmt.bindString(2, u.getPassword());
-//
-//        stmt.executeInsert();
 
         // TODO: return id of new user
     }
@@ -182,11 +148,7 @@ public class Database extends SQLiteOpenHelper {
             values.put(productColumns[2], p.getCategoryId());
             values.put(productColumns[3], p.getSellerId());
             values.put(productColumns[4], p.getPrice());
-            values.put("Name", p.getName());
-            values.put("Description", p.getDescription());
-            values.put("CategoryID", p.getCategoryId());
-            values.put("SellerID", p.getSellerId());
-            values.put("Price", p.getPrice());
+            values.put(productColumns[5], p.getIsSold());
 
             db.insertOrThrow(PRODUCT_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -195,16 +157,6 @@ public class Database extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
-//        String sql = "INSERT INTO Product(Name, Desription, CategoryID, SellerID, Price) VALUES(?,?,?,?,?);";
-//        SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-//        stmt.bindString(1, p.getName());
-//        stmt.bindString(2, p.getDescription());
-//        stmt.bindDouble(3, p.getCategoryId());
-//        stmt.bindDouble(4, p.getSellerId());
-//        stmt.bindDouble(5, p.getPrice());
-//
-//        stmt.executeInsert();
     }
 
     private long getCountOfCategoryTable() {
@@ -231,11 +183,6 @@ public class Database extends SQLiteOpenHelper {
             } finally {
                 db.endTransaction();
             }
-//            String sql = "INSERT INTO Category(Name) VALUES(?);";
-//            SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-//            stmt.bindString(1, c);
-//
-//            stmt.executeInsert();
         }
     }
 
