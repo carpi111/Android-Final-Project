@@ -13,16 +13,32 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 public class ProfileFragment extends Fragment {
 
     private static final int ADD_ITEM_ID  = Menu.FIRST;
     private static final int EDIT_PROF_ID = Menu.FIRST + 1;
+    int ID = Database.getCurrentUserId();
+    Database db = Database.getInstance(getActivity());
+
+    private TextView profileUsername;
+    private TextView profileLocation;
+    private RatingBar profileRating;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profile, container, false);
+        View rootView = inflater.inflate(R.layout.profile, container, false);
+
+        profileUsername = rootView.findViewById(R.id.usernameText);
+        profileLocation = rootView.findViewById(R.id.locationText);
+        profileRating   = rootView.findViewById(R.id.userRatingBar);
+
+        populateProfile(ID);
+
+        return rootView;
     }
 
     @Override
@@ -30,8 +46,6 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        int id = Database.getCurrentUserId();
-        Log.e("***********ID:", String.valueOf(id));
     }
 
     @Override
@@ -58,5 +72,14 @@ public class ProfileFragment extends Fragment {
         transaction.commit();
 
         return true;
+    }
+
+    public void populateProfile(int id)
+    {
+        User user = db.getUserById(id);
+        profileUsername.setText(user.getUsername());
+        //TODO: location
+        profileRating.setStepSize(user.getRating());
+
     }
 }

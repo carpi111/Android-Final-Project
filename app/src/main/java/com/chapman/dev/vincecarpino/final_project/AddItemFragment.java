@@ -26,7 +26,7 @@ public class AddItemFragment extends Fragment {
     private EditText    itemDescInput;
     private ImageButton itemSaveButton;
 
-    private Database db = new Database(getContext());
+    Database db = Database.getInstance(getActivity());
 
     @Nullable
     @Override
