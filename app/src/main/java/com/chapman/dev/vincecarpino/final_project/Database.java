@@ -4,12 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 //TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
     private Context context;
     private static int CURRENT_USER_ID = -1;
+    private static Database sInstance;
     private static final String DATABASE_NAME  = "ChappyFAFS";
     private static final String USER_TABLE     = "User";
     private static final String PRODUCT_TABLE  = "Product";
@@ -45,7 +47,7 @@ public class Database extends SQLiteOpenHelper {
 
     // selectFromTable
 
-    public Database(Context context) {
+    private Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
         this.context = context;
         //myDB = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
@@ -67,6 +69,16 @@ public class Database extends SQLiteOpenHelper {
 //
 //            populateCategoryTable();
 //        }
+    }
+
+    public static synchronized Database getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new Database(context);
+        }
+        return sInstance;
     }
 
     @Override
@@ -116,7 +128,7 @@ public class Database extends SQLiteOpenHelper {
                 + "Name VARCHAR);";
         db.execSQL(sql);
 
-        populateCategoryTable();
+        populateCategoryTable(db);
 //        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
 //        stmt.execute();
     }
@@ -191,9 +203,8 @@ public class Database extends SQLiteOpenHelper {
         return stmt.simpleQueryForLong();
     }
 
-    private void populateCategoryTable() {
+    private void populateCategoryTable(SQLiteDatabase db) {
         for (String c : categories) {
-            SQLiteDatabase db = getWritableDatabase();
 
             db.beginTransaction();
 
@@ -233,8 +244,10 @@ public class Database extends SQLiteOpenHelper {
 
     public User getUserById(int id) {
         String sql = "SELECT * FROM User WHERE ID=?;";
-        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
 
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(sql, new String[] { String.valueOf(id) });
+        c.moveToFirst();
         User user = new User();
 
         user.setId(Integer.valueOf(c.getString(0)));
