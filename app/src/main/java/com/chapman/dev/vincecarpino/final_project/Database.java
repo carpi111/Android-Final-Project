@@ -154,10 +154,10 @@ public class Database extends SQLiteOpenHelper {
 
         User user = new User();
 
-        user.setId(Integer.valueOf(c.getString(1)));
-        user.setUsername(c.getString(2));
-        user.setPassword(c.getString(3));
-        user.setRating(Float.valueOf(c.getString(4)));
+        user.setId(Integer.valueOf(c.getString(0)));
+        user.setUsername(c.getString(1));
+        user.setPassword(c.getString(2));
+        user.setRating(Float.valueOf(c.getString(3)));
 
         c.close();
 
@@ -185,7 +185,7 @@ public class Database extends SQLiteOpenHelper {
 
         c.moveToFirst();
 
-        idOfResult = c.getInt(1);
+        idOfResult = c.getInt(0);
 
         c.close();
 

@@ -88,11 +88,16 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: Create new item and add to DB
-                String newItemName  = getEditTextString(itemNameInput);
-                String newItemPrice = getEditTextString(itemPriceInput);
-                String newItemCat   = getSelectedSpinnerItem(categorySpinner);
-                int newItemCatId    = db.getCategoryIdByName(newItemCat);
-                String newItemDesc  = getEditTextString(itemDescInput);
+                String newItemName      = getEditTextString(itemNameInput);
+                String newItemDesc      = getEditTextString(itemDescInput);
+                String newItemPrice     = getEditTextString(itemPriceInput);
+                float newItemPriceFloat = Float.valueOf(newItemPrice);
+                String newItemCat       = getSelectedSpinnerItem(categorySpinner);
+                int newItemCatId        = db.getCategoryIdByName(newItemCat);
+                int sellerId            = db.getCurrentUserId();
+
+                Product newProduct = new Product(newItemName, newItemDesc, newItemCatId, sellerId, newItemPriceFloat);
+                db.insertIntoProduct(newProduct);
             }
         });
     }
