@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
         User user = db.getUserById(id);
         profileUsername.setText(user.getUsername());
         //TODO: location
-        profileRating.setStepSize(user.getRating());
+        profileRating.setRating(user.getRating());
 
     }
 }

@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
-import android.provider.CalendarContract;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 //TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
@@ -286,6 +287,30 @@ public class Database extends SQLiteOpenHelper {
         c.close();
 
         return idOfResult;
+    }
+
+    public ArrayList<Product> getAllProducts() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] {});
+//        c.moveToFirst();
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setPrice(c.getFloat(5));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return  results;
     }
 
     public static void setCurrentUserId(int id) {
