@@ -28,7 +28,7 @@ public class LoginActivity extends Activity {
     private TextView createAccountText;
 
     private Cursor c;
-    Database db = new Database(this);
+    Database db = Database.getInstance(this);
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
