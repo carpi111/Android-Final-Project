@@ -8,6 +8,7 @@ import android.provider.CalendarContract;
 import android.util.Log;
 
 //TODO: SERVICE????????????????
+//TODO: profile rating needs to be average .. add to database running avg
 public class Database extends SQLiteOpenHelper {
     private static int CURRENT_USER_ID = -1;
     private static Database sInstance;
@@ -246,6 +247,28 @@ public class Database extends SQLiteOpenHelper {
         return user;
     }
 
+    public Product getProductById(int id)
+    {
+        String sql = "SELECT * FROM Product WHERE ID=?;";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(sql, new String[] { String.valueOf(id) });
+        c.moveToFirst();
+        Product product = new Product();
+
+        product.setId(Integer.valueOf(c.getString(0)));
+        product.setName(c.getString(1));
+        product.setDescription(c.getString(2));
+        product.setCategoryId(Integer.valueOf(c.getString(3)));
+        product.setSellerId(Integer.valueOf(c.getString(4)));
+        product.setPrice(Float.valueOf(c.getString(5)));
+
+        c.close();
+
+        return product;
+
+    }
+
     public int checkIfUserExists(String username, String password) {
         int idOfResult;
         String sql = "SELECT * FROM User WHERE Username=? AND Password=?;";
@@ -272,6 +295,19 @@ public class Database extends SQLiteOpenHelper {
         c.close();
 
         return idOfResult;
+    }
+
+    public String getCategoryNameById(int id)
+    {
+        String nameOfResult;
+        String sql = "SELECT Name FROM Category WHERE ID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
+        c.moveToFirst();
+
+        nameOfResult = c.getString(1);
+
+        c.close();
+        return nameOfResult;
     }
 
     public static void setCurrentUserId(int id) {
