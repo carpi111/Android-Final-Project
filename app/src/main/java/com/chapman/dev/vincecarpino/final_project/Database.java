@@ -9,7 +9,6 @@ import android.util.Log;
 import java.util.ArrayList;
 
 
-//TODO: profile rating needs to be average .. add to database running avg
 // TODO: profile rating needs to be average .. add to database running avg
 public class Database extends SQLiteOpenHelper {
     private static int CURRENT_USER_ID = -1;
