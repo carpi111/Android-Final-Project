@@ -9,7 +9,6 @@ import android.util.Log;
 import java.util.ArrayList;
 
 
-// TODO: profile rating needs to be average .. add to database running avg
 public class Database extends SQLiteOpenHelper {
     private static int CURRENT_USER_ID = -1;
     private static Database sInstance;
@@ -316,12 +315,13 @@ public class Database extends SQLiteOpenHelper {
     }
     public float getUserRatingById(int id)
     {
+        Log.e("************DATABASE", String.valueOf(id));
         float currentRating;
         String sql = "SELECT Rating FROM User WHERE ID=?;";
         Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
         c.moveToFirst();
 
-        currentRating = c.getFloat(4);
+        currentRating = c.getFloat(0);
 
         c.close();
         return currentRating;
@@ -333,22 +333,24 @@ public class Database extends SQLiteOpenHelper {
 
 
         SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(userColumns[2], (getUserRatingById(id) + newRating) / 2f);
+        db.update(USER_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
 
-        db.beginTransaction();
-
-        try {
-            ContentValues values = new ContentValues();
-
-            values.put(userColumns[2], (getUserRatingById(id) + newRating)/2f);
-            db.update(USER_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
-            //db.insertOrThrow(USER_TABLE, null, values);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.e("DATABASE", "Error updating User rating");
-            Log.e("DB STACK", e.getLocalizedMessage());
-        } finally {
-            db.endTransaction();
-        }
+//        db.beginTransaction();
+//
+//        try {
+//
+//            values.put(userColumns[2], (getUserRatingById(id) + newRating) / 2f);
+//            db.update(USER_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
+//            //db.insertOrThrow(USER_TABLE, null, values);
+//            db.setTransactionSuccessful();
+//        } catch (Exception e) {
+//            Log.e("DATABASE", "Error updating User rating");
+//            Log.e("DB STACK", e.toString());
+//        } finally {
+//            db.endTransaction();
+//        }
 
     }
 //    public ArrayList<String> getProductDetails(int id)

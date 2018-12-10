@@ -137,7 +137,7 @@ public class FeedFragment extends Fragment {
                 .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.updateUserRating(id, sellerRating.getRating());
+                        db.updateUserRating(Database.getCurrentUserId(), sellerRating.getRating());
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
