@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
-import android.provider.CalendarContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -147,9 +146,6 @@ public class Database extends SQLiteOpenHelper {
             values.put(userColumns[0], u.getUsername());
             values.put(userColumns[1], u.getPassword());
             values.put(userColumns[2], 0f);
-            values.put("Username", u.getUsername());
-            values.put("Password", u.getPassword());
-            values.put("Rating", 0f);
 
             db.insertOrThrow(USER_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -182,11 +178,6 @@ public class Database extends SQLiteOpenHelper {
             values.put(productColumns[2], p.getCategoryId());
             values.put(productColumns[3], p.getSellerId());
             values.put(productColumns[4], p.getPrice());
-            values.put("Name", p.getName());
-            values.put("Description", p.getDescription());
-            values.put("CategoryID", p.getCategoryId());
-            values.put("SellerID", p.getSellerId());
-            values.put("Price", p.getPrice());
 
             db.insertOrThrow(PRODUCT_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -321,6 +312,7 @@ public class Database extends SQLiteOpenHelper {
         return idOfResult;
     }
 
+<<<<<<< HEAD
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> results = new ArrayList<>();
 
@@ -343,8 +335,7 @@ public class Database extends SQLiteOpenHelper {
         c.close();
 
         return  results;
-    }
-
+=======
     public String getCategoryNameById(int id)
     {
         String nameOfResult;
@@ -356,6 +347,7 @@ public class Database extends SQLiteOpenHelper {
 
         c.close();
         return nameOfResult;
+>>>>>>> cf7f50905703bb220cb6750cae6ad742b49f3299
     }
 
     public static void setCurrentUserId(int id) {

@@ -2,22 +2,28 @@ package com.chapman.dev.vincecarpino.final_project;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+<<<<<<< HEAD
 import android.graphics.Typeface;
+=======
 import android.content.DialogInterface;
+>>>>>>> cf7f50905703bb220cb6750cae6ad742b49f3299
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+=======
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+>>>>>>> cf7f50905703bb220cb6750cae6ad742b49f3299
 
 public class FeedFragment extends Fragment {
     private Database db = Database.getInstance(getActivity());
@@ -46,7 +52,6 @@ public class FeedFragment extends Fragment {
         populateItemsScrollview();
 
         return rootView;
-        return inflater.inflate(R.layout.feed, container, false);
     }
 
     @Override
@@ -54,6 +59,7 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+<<<<<<< HEAD
     private void populateItemsScrollview() {
         for (Product p : db.getAllProducts()) {
             TextView itemName = new TextView(getActivity());
@@ -88,8 +94,7 @@ public class FeedFragment extends Fragment {
 
             scrollviewLayout.addView(newLayout);
         }
-    }
-
+=======
     public void showDetailsDialog(final Product p)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -146,5 +151,6 @@ public class FeedFragment extends Fragment {
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) { }
                 }).show();
+>>>>>>> cf7f50905703bb220cb6750cae6ad742b49f3299
     }
 }
