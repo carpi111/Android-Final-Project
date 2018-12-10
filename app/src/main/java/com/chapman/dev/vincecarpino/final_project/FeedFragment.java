@@ -34,8 +34,6 @@ public class FeedFragment extends Fragment {
     private TextView rateSellerQuestion;
     private RatingBar sellerRating;
 
-    Database db = Database.getInstance(getActivity());
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +44,6 @@ public class FeedFragment extends Fragment {
         populateItemsScrollview();
 
         return rootView;
-        return inflater.inflate(R.layout.feed, container, false);
     }
 
     @Override
@@ -55,7 +52,7 @@ public class FeedFragment extends Fragment {
     }
 
     private void populateItemsScrollview() {
-        for (Product p : db.getAllProducts()) {
+        for (final Product p : db.getAllProducts()) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
 
@@ -83,6 +80,7 @@ public class FeedFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     // TODO: show item details
+                    showDetailsDialog(p);
                 }
             });
 
@@ -93,7 +91,7 @@ public class FeedFragment extends Fragment {
     public void showDetailsDialog(final Product p)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = this.getLayoutInflater();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         final View root = inflater.inflate(R.layout.details, null);
 
         itemName = root.findViewById(R.id.itemTitleText);
@@ -125,7 +123,7 @@ public class FeedFragment extends Fragment {
     public void showBoughtItemDialog(Product p)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = this.getLayoutInflater();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         final View root = inflater.inflate(R.layout.buy_item_dialog, null);
 
         rateSellerQuestion = root.findViewById(R.id.rateSellerTxt);

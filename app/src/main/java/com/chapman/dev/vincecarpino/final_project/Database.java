@@ -352,7 +352,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
         c.moveToFirst();
 
-        nameOfResult = c.getString(1);
+        nameOfResult = c.getString(0);
 
         c.close();
         return nameOfResult;
