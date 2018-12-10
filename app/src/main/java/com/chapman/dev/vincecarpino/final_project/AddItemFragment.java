@@ -94,7 +94,7 @@ public class AddItemFragment extends Fragment {
                 float newItemPriceFloat = Float.valueOf(newItemPrice);
                 String newItemCat       = getSelectedSpinnerItem(categorySpinner);
                 int newItemCatId        = db.getCategoryIdByName(newItemCat);
-                int sellerId            = db.getCurrentUserId();
+                int sellerId            = Database.getCurrentUserId();
 
                 Product newProduct = new Product(newItemName, newItemDesc, newItemCatId, sellerId, newItemPriceFloat);
                 db.insertIntoProduct(newProduct);

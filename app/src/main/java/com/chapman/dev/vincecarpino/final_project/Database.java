@@ -1,5 +1,6 @@
 package com.chapman.dev.vincecarpino.final_project;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
@@ -8,8 +9,10 @@ import android.util.Log;
 //TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
     private static int CURRENT_USER_ID = -1;
-    SQLiteDatabase myDB;
-    private static final String DATABASE_NAME = "ChappyFAFS";
+    private static final String DATABASE_NAME  = "ChappyFAFS";
+    private static final String USER_TABLE     = "User";
+    private static final String PRODUCT_TABLE  = "Product";
+    private static final String CATEGORY_TABLE = "Category";
     private static final String[] categories = {
             "Art",
             "Books",
@@ -53,28 +56,34 @@ public class Database extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
-        createUserTable();
+        createUserTable(db);
 
-        createProductTable();
+        createProductTable(db);
 
-        createCategoryTable();
+        createCategoryTable(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 
-    private void createUserTable() {
+    private void createUserTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS User("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "Username VARCHAR, "
                 + "Password VARCHAR, "
                 + "Rating DECIMAL(1,1));";
-        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-        stmt.execute();
+        db.execSQL(sql);
+//        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
+//        stmt.execute();
     }
 
-    private void createProductTable() {
+    private void createProductTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS Product("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "Name VARCHAR, "
@@ -82,39 +91,83 @@ public class Database extends SQLiteOpenHelper {
                 + "CategoryID INTEGER, "
                 + "SellerID INTEGER, "
                 + "Price DECIMAL(4,2));";
-        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-        stmt.execute();
+        db.execSQL(sql);
+//        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
+//        stmt.execute();
     }
 
-    private void createCategoryTable() {
+    private void createCategoryTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS Category("
                 + "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "Name VARCHAR);";
-        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
-        stmt.execute();
+        db.execSQL(sql);
+
+        populateCategoryTable();
+//        SQLiteStatement stmt = this.getWritableDatabase().compileStatement(sql);
+//        stmt.execute();
     }
 
     public void insertIntoUser(User u) {
-        String sql = "INSERT INTO User(Username, Password) VALUES(?,?);";
-        SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-        stmt.bindString(1, u.getUsername());
-        stmt.bindString(2, u.getPassword());
+        SQLiteDatabase db = getWritableDatabase();
 
-        stmt.executeInsert();
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put("Username", u.getUsername());
+            values.put("Password", u.getPassword());
+            values.put("Rating", 0f);
+
+            db.insertOrThrow(USER_TABLE, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("DATABASE", "Error adding to User table");
+        } finally {
+            db.endTransaction();
+        }
+//
+//        String sql = "INSERT INTO User(Username, Password) VALUES(?,?);";
+//        SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
+//        stmt.bindString(1, u.getUsername());
+//        stmt.bindString(2, u.getPassword());
+//
+//        stmt.executeInsert();
 
         // TODO: return id of new user
     }
 
     public void insertIntoProduct(Product p) {
-        String sql = "INSERT INTO Product(Name, Desription, CategoryID, SellerID, Price) VALUES(?,?,?,?,?);";
-        SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-        stmt.bindString(1, p.getName());
-        stmt.bindString(2, p.getDescription());
-        stmt.bindDouble(3, p.getCategoryId());
-        stmt.bindDouble(4, p.getSellerId());
-        stmt.bindDouble(5, p.getPrice());
+        SQLiteDatabase db = getWritableDatabase();
 
-        stmt.executeInsert();
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put("Name", p.getName());
+            values.put("Description", p.getDescription());
+            values.put("CategoryID", p.getCategoryId());
+            values.put("SellerID", p.getSellerId());
+            values.put("Price", p.getPrice());
+
+            db.insertOrThrow(PRODUCT_TABLE, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("DATABASE", "Error adding to Product table");
+        } finally {
+            db.endTransaction();
+        }
+
+//        String sql = "INSERT INTO Product(Name, Desription, CategoryID, SellerID, Price) VALUES(?,?,?,?,?);";
+//        SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
+//        stmt.bindString(1, p.getName());
+//        stmt.bindString(2, p.getDescription());
+//        stmt.bindDouble(3, p.getCategoryId());
+//        stmt.bindDouble(4, p.getSellerId());
+//        stmt.bindDouble(5, p.getPrice());
+//
+//        stmt.executeInsert();
     }
 
     private long getCountOfCategoryTable() {
@@ -126,11 +179,27 @@ public class Database extends SQLiteOpenHelper {
 
     private void populateCategoryTable() {
         for (String c : categories) {
-            String sql = "INSERT INTO Category(Name) VALUES(?);";
-            SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
-            stmt.bindString(1, c);
+            SQLiteDatabase db = getWritableDatabase();
 
-            stmt.executeInsert();
+            db.beginTransaction();
+
+            try {
+                ContentValues values = new ContentValues();
+
+                values.put("Name", c);
+
+                db.insertOrThrow(CATEGORY_TABLE, null, values);
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+                Log.e("DATABASE", "Error adding to Category table");
+            } finally {
+                db.endTransaction();
+            }
+//            String sql = "INSERT INTO Category(Name) VALUES(?);";
+//            SQLiteStatement stmt = this.getReadableDatabase().compileStatement(sql);
+//            stmt.bindString(1, c);
+//
+//            stmt.executeInsert();
         }
     }
 
@@ -192,8 +261,7 @@ public class Database extends SQLiteOpenHelper {
         return idOfResult;
     }
 
-    public static void setCurrentUserId(int id)
-    {
+    public static void setCurrentUserId(int id) {
         CURRENT_USER_ID = id;
     }
 
