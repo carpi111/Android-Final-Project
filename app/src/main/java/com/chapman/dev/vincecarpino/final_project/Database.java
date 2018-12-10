@@ -8,11 +8,24 @@ import android.util.Log;
 
 //TODO: SERVICE????????????????
 public class Database extends SQLiteOpenHelper {
+    private Context context;
     private static int CURRENT_USER_ID = -1;
     private static final String DATABASE_NAME  = "ChappyFAFS";
     private static final String USER_TABLE     = "User";
     private static final String PRODUCT_TABLE  = "Product";
     private static final String CATEGORY_TABLE = "Category";
+    private static final String[] userColumns = {
+            "Username",
+            "Password",
+            "Rating"
+    };
+    private static final String[] productColumns = {
+            "Name",
+            "Description",
+            "CategoryID",
+            "SellerID",
+            "Price"
+    };
     private static final String[] categories = {
             "Art",
             "Books",
@@ -34,6 +47,7 @@ public class Database extends SQLiteOpenHelper {
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.context = context;
         //myDB = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
 //        SQLiteDatabase.CursorFactory factory = new SQLiteDatabase.CursorFactory() {
 //            @Override
@@ -115,9 +129,9 @@ public class Database extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
 
-            values.put("Username", u.getUsername());
-            values.put("Password", u.getPassword());
-            values.put("Rating", 0f);
+            values.put(userColumns[0], u.getUsername());
+            values.put(userColumns[1], u.getPassword());
+            values.put(userColumns[2], 0f);
 
             db.insertOrThrow(USER_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -145,11 +159,11 @@ public class Database extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
 
-            values.put("Name", p.getName());
-            values.put("Description", p.getDescription());
-            values.put("CategoryID", p.getCategoryId());
-            values.put("SellerID", p.getSellerId());
-            values.put("Price", p.getPrice());
+            values.put(productColumns[0], p.getName());
+            values.put(productColumns[1], p.getDescription());
+            values.put(productColumns[2], p.getCategoryId());
+            values.put(productColumns[3], p.getSellerId());
+            values.put(productColumns[4], p.getPrice());
 
             db.insertOrThrow(PRODUCT_TABLE, null, values);
             db.setTransactionSuccessful();
