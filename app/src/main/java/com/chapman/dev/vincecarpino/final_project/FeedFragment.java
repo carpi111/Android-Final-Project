@@ -40,9 +40,7 @@ public class FeedFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.feed, container, false);
 
         scrollviewLayout = rootView.findViewById(R.id.feedLinLayout);
-
         populateItemsScrollview();
-
         return rootView;
     }
 
@@ -128,6 +126,8 @@ public class FeedFragment extends Fragment {
         rateSellerQuestion = root.findViewById(R.id.rateSellerTxt);
         sellerRating = root.findViewById(R.id.buyRatingBar);
 
+
+
         String sellerQ = "How would you rate " + db.getUserById(p.getSellerId()).getUsername().toUpperCase() + "?";
         rateSellerQuestion.setText(sellerQ);
 
@@ -137,7 +137,7 @@ public class FeedFragment extends Fragment {
                 .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //update user rating
+                        db.updateUserRating(id, sellerRating.getRating());
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

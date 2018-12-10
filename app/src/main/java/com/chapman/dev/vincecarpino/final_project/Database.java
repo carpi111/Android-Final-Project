@@ -314,7 +314,43 @@ public class Database extends SQLiteOpenHelper {
     public static int getCurrentUserId() {
         return CURRENT_USER_ID;
     }
+    public float getUserRatingById(int id)
+    {
+        float currentRating;
+        String sql = "SELECT Rating FROM User WHERE ID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
+        c.moveToFirst();
 
+        currentRating = c.getFloat(4);
+
+        c.close();
+        return currentRating;
+    }
+
+    public void updateUserRating(int id, float newRating)
+    {
+        //String sql = "UPDATE User SET Rating = ? WHERE ID = ?;";
+
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(userColumns[2], (getUserRatingById(id) + newRating)/2f);
+            db.update(USER_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
+            //db.insertOrThrow(USER_TABLE, null, values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("DATABASE", "Error updating User rating");
+            Log.e("DB STACK", e.getLocalizedMessage());
+        } finally {
+            db.endTransaction();
+        }
+
+    }
 //    public ArrayList<String> getProductDetails(int id)
 //    {
 //        ArrayList<String> productDetails = new ArrayList<>();

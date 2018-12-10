@@ -36,17 +36,29 @@ public class ProfileFragment extends Fragment {
         profileUsername = rootView.findViewById(R.id.usernameText);
         profileLocation = rootView.findViewById(R.id.locationText);
         profileRating   = rootView.findViewById(R.id.userRatingBar);
-
+        //profileRating.setEnabled(false); //not clickable
+        //profileRating.setClickable(false);
+        profileRating.setIsIndicator(true);
         populateProfile(ID);
 
+        Log.e("**********Profile", " OnCreateView");
         return rootView;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("**********Profile", " OnCreate");
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("**********Profile", " OnResume");
+        populateProfile(ID);
+
     }
 
     @Override
