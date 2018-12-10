@@ -129,7 +129,7 @@ public class FeedFragment extends Fragment {
         rateSellerQuestion = root.findViewById(R.id.rateSellerTxt);
         sellerRating = root.findViewById(R.id.buyRatingBar);
 
-        String sellerQ = "How would you rate " + db.getUserById(p.getSellerId()).getUsername() + "?";
+        String sellerQ = "How would you rate " + db.getUserById(p.getSellerId()).getUsername().toUpperCase() + "?";
         rateSellerQuestion.setText(sellerQ);
 
         // Inflate and set the layout for the dialog
