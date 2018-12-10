@@ -3,6 +3,7 @@ package com.chapman.dev.vincecarpino.final_project;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 public class ProfileFragment extends Fragment {
 
     private static final int ADD_ITEM_ID  = Menu.FIRST;
-    private static final int EDIT_PROF_ID = Menu.FIRST + 1;
+    private static final int LOGOUT_ID = Menu.FIRST + 1;
     int ID = Database.getCurrentUserId();
     Database db = Database.getInstance(getActivity());
 
@@ -51,7 +52,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.add(Menu.NONE, ADD_ITEM_ID, Menu.NONE, "ADD ITEM");
-        menu.add(Menu.NONE, EDIT_PROF_ID, Menu.NONE, "EDIT PROFILE");
+        menu.add(Menu.NONE, LOGOUT_ID, Menu.NONE, "LOG OUT");
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -64,8 +65,9 @@ public class ProfileFragment extends Fragment {
             case ADD_ITEM_ID:
                 transaction.replace(R.id.container, new AddItemFragment());
                 break;
-            case EDIT_PROF_ID:
-                // TODO: Edit profile page
+            case LOGOUT_ID:
+                Intent goToLogin = new Intent(getActivity(), LoginActivity.class);
+                startActivity(goToLogin);
                 break;
         }
 

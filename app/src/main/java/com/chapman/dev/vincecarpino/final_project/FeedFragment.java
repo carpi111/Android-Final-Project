@@ -79,7 +79,6 @@ public class FeedFragment extends Fragment {
             newLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: show item details
                     showDetailsDialog(p);
                 }
             });

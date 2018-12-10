@@ -57,28 +57,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationText" />
 
-    <ImageButton
-        android:id="@+id/profileEditBtn"
-        android:layout_width="63dp"
-        android:layout_height="58dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="96dp"
         android:layout_height="84dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginLeft="144dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginStart="144dp"
+        android:layout_marginEnd="158dp"
+        android:layout_marginStart="157dp"
         android:layout_marginTop="48dp"
         android:src="@drawable/person"
-        app:layout_constraintEnd_toStartOf="@+id/profileEditBtn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -90,7 +90,9 @@ public class LoginActivity extends Activity {
                             db.insertIntoUser(newUser);
                         }
 
-                        // TODO: Log new user in after create account
+                        //populate login textviews after creating an account
+                        usernameInput.setText(createAcctUsernameInput.getText().toString());
+                        passwordInput.setText(createAcctPasswordInput.getText().toString());
 //                        Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
 //                        startActivity(goToMain);
                     }

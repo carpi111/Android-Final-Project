@@ -9,7 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-//TODO: SERVICE????????????????
+
 //TODO: profile rating needs to be average .. add to database running avg
 public class Database extends SQLiteOpenHelper {
     private Context context;

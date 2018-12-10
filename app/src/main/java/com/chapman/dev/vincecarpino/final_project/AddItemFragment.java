@@ -87,7 +87,6 @@ public class AddItemFragment extends Fragment {
         itemSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Create new item and add to DB
                 String newItemName      = getEditTextString(itemNameInput);
                 String newItemDesc      = getEditTextString(itemDescInput);
                 String newItemPrice     = getEditTextString(itemPriceInput);
