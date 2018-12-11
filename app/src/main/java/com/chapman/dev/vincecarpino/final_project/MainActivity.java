@@ -49,8 +49,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
-        //Database db = new Database(this);
-
         Toolbar actionbar = findViewById(R.id.action_bar);
         setActionBar(actionbar);
 
@@ -64,7 +62,6 @@ public class MainActivity extends Activity {
 
         int currentUserId = getIntent().getIntExtra("UserId", -1);
 
-        //Log.e("MAIN", String.valueOf(currentUserId));
         Database.setCurrentUserId(currentUserId);
     }
 }
