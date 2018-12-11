@@ -268,6 +268,34 @@ public class Database extends SQLiteOpenHelper {
         return idOfResult;
     }
 
+    public ArrayList<Product> getProductInfoByCategoryID(int id)
+    {
+        ArrayList<Product> results = new ArrayList<>();
+
+        //String sql = "SELECT * FROM Product WHERE CategoryID=? AND Name LIKE '%?%';";
+        String sql = "SELECT * FROM Product";
+        //String sql = "SELECT * FROM Product WHERE CategoryID=?;";
+//        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(id) });
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] {});
+
+        while(c.moveToFirst())
+        {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setPrice(c.getFloat(5));
+
+            results.add(p);
+        }
+
+        c.close();
+    return results;
+    }
+
+
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> results = new ArrayList<>();
 
