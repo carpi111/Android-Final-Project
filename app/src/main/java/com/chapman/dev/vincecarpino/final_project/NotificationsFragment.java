@@ -5,7 +5,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,18 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-// TODO: Populate with fake notifications
-
-// TODO: Create notification when item is bought
+import java.util.Arrays;
+import java.util.Collections;
 
 // TODO: Long press to delete
 
-// your item sold
-// new item listed
-// new rating
-
 public class NotificationsFragment extends Fragment {
+    private ArrayList<String> allNotifs = new ArrayList<>();
+    private LinearLayout scrollviewLayout;
     private String[] itemSoldNotifs = new String[] {
             "Your book was sold!",
             "Your shirt was sold!",
@@ -47,14 +45,14 @@ public class NotificationsFragment extends Fragment {
             "You have a new 4 star rating",
     };
 
-    private LinearLayout scrollviewLayout;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.notifications, container, false);
 
         scrollviewLayout = rootView.findViewById(R.id.notifLinLayout);
+
+        populateAllNotifsList();
 
         populateScrollview();
 
@@ -66,12 +64,29 @@ public class NotificationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    private void populateAllNotifsList() {
+        allNotifs.addAll(Arrays.asList(itemSoldNotifs));
+        allNotifs.addAll(Arrays.asList(newRatingNotifs));
+        allNotifs.addAll(Arrays.asList(newItemNotifs));
+
+        Collections.shuffle(allNotifs);
+    }
+
     private void populateScrollview() {
-        for (final String s : itemSoldNotifs) {
+        for (final String s : allNotifs) {
             ImageView notifIcon = new ImageView(getActivity());
             TextView notifTitle = new TextView(getActivity());
 
-            notifIcon.setImageResource(R.drawable.ic_sold);
+            // if in itemsold, sold icon
+            // if in new rating, rating icon
+            // if in newitem, new listing icon
+            if (Arrays.asList(itemSoldNotifs).contains(s)) {
+                notifIcon.setImageResource(R.drawable.ic_sold);
+            } else if (Arrays.asList(newRatingNotifs).contains(s)) {
+                notifIcon.setImageResource(R.drawable.ic_new_rating);
+            } else if (Arrays.asList(newItemNotifs).contains(s)) {
+                notifIcon.setImageResource(R.drawable.ic_new_listing);
+            }
             notifTitle.setText(s);
 
             notifTitle.setTypeface(null, Typeface.BOLD);
@@ -88,55 +103,18 @@ public class NotificationsFragment extends Fragment {
             newLayout.addView(notifIcon);
             newLayout.addView(notifTitle);
 
-            scrollviewLayout.addView(newLayout);
-        }
+            newLayout.setBackgroundResource(R.drawable.border);
+            newLayout.setPadding(10, 10, 10, 10);
 
-        for (final String s : newRatingNotifs) {
-            ImageView notifIcon = new ImageView(getActivity());
-            TextView notifTitle = new TextView(getActivity());
-
-            notifIcon.setImageResource(R.drawable.ic_new_rating);
-            notifTitle.setText(s);
-
-            notifTitle.setTypeface(null, Typeface.BOLD);
-
-            float textSize = 20;
-
-            notifTitle.setTextSize(textSize);
-
-            notifIcon.setPadding(10, 30, 10, 30);
-            notifTitle.setPadding(10, 30, 10, 30);
-
-            LinearLayout newLayout = new LinearLayout(getActivity());
-
-            newLayout.addView(notifIcon);
-            newLayout.addView(notifTitle);
+            newLayout.setClickable(true);
 
             scrollviewLayout.addView(newLayout);
         }
+    }
 
-        for (final String s : newItemNotifs) {
-            ImageView notifIcon = new ImageView(getActivity());
-            TextView notifTitle = new TextView(getActivity());
-
-            notifIcon.setImageResource(R.drawable.ic_new_listing);
-            notifTitle.setText(s);
-
-            notifTitle.setTypeface(null, Typeface.BOLD);
-
-            float textSize = 20;
-
-            notifTitle.setTextSize(textSize);
-
-            notifIcon.setPadding(10, 30, 10, 30);
-            notifTitle.setPadding(10, 30, 10, 30);
-
-            LinearLayout newLayout = new LinearLayout(getActivity());
-
-            newLayout.addView(notifIcon);
-            newLayout.addView(notifTitle);
-
-            scrollviewLayout.addView(newLayout);
-        }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "DELETE");
+        super.onCreateContextMenu(menu, v, menuInfo);
     }
 }
