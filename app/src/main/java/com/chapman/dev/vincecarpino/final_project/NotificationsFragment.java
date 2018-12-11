@@ -1,6 +1,8 @@
 package com.chapman.dev.vincecarpino.final_project;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -77,14 +80,11 @@ public class NotificationsFragment extends Fragment {
             ImageView notifIcon = new ImageView(getActivity());
             TextView notifTitle = new TextView(getActivity());
 
-            // if in itemsold, sold icon
-            // if in new rating, rating icon
-            // if in newitem, new listing icon
-            if (Arrays.asList(itemSoldNotifs).contains(s)) {
+            if (arrayContainsItem(itemSoldNotifs, s)) {
                 notifIcon.setImageResource(R.drawable.ic_sold);
-            } else if (Arrays.asList(newRatingNotifs).contains(s)) {
+            } else if (arrayContainsItem(newRatingNotifs, s)) {
                 notifIcon.setImageResource(R.drawable.ic_new_rating);
-            } else if (Arrays.asList(newItemNotifs).contains(s)) {
+            } else if (arrayContainsItem(newItemNotifs, s)) {
                 notifIcon.setImageResource(R.drawable.ic_new_listing);
             }
             notifTitle.setText(s);
@@ -107,14 +107,57 @@ public class NotificationsFragment extends Fragment {
             newLayout.setPadding(10, 10, 10, 10);
 
             newLayout.setClickable(true);
+            addLongClickListenerToLayout(newLayout);
+
+//            registerForContextMenu(newLayout);
 
             scrollviewLayout.addView(newLayout);
         }
+    }
+
+    private boolean arrayContainsItem(String[] array, String item) {
+        return Arrays.asList(array).contains(item);
+    }
+
+    private void addLongClickListenerToLayout(final LinearLayout layout) {
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+//                layoutToRemove = layout;
+                showDeleteNotificationDialog(layout);
+                return true;
+            }
+        });
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "DELETE");
         super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+//        showDeleteNotificationDialog();
+        return super.onContextItemSelected(item);
+    }
+
+    private void showDeleteNotificationDialog(final LinearLayout layout) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("Do you want to clear this notification?")
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                })
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (scrollviewLayout.getChildCount() > 0) {
+                            int indexOfViewToRemove = scrollviewLayout.indexOfChild(layout);
+                            scrollviewLayout.removeView(layout);
+                            allNotifs.remove(indexOfViewToRemove);
+                        }
+                    }
+                }).show();
     }
 }
