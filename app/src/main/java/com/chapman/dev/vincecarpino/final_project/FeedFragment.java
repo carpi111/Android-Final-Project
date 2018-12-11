@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+// TODO: Remove items from list when sold
+
 public class FeedFragment extends Fragment {
     private Database db = Database.getInstance(getActivity());
     private LinearLayout scrollviewLayout;

@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// TODO: Populate with fake notifications
+
+// TODO: Create notification when item is bought
+
 public class NotificationsFragment extends Fragment {
 
     @Nullable

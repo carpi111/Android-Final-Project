@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+// TODO: Populate items lists
+
 public class ProfileFragment extends Fragment {
 
     private static final int ADD_ITEM_ID  = Menu.FIRST;
