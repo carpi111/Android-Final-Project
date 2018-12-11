@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/red_watercolor">
+    android:background="@drawable/gate">
 
     <TextView
         android:id="@+id/titleText"
@@ -17,9 +17,9 @@
         android:layout_marginStart="160dp"
         android:layout_marginTop="68dp"
         android:text="Chappy"
-        android:textAppearance="@style/customfontstyle"
         android:textColor="@color/white"
         android:textSize="35sp"
+        android:fontFamily="@font/allan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
