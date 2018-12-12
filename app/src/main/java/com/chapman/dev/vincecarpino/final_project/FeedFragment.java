@@ -19,8 +19,6 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-// TODO: Remove items from list when sold
-
 public class FeedFragment extends Fragment {
     private Database db = Database.getInstance(getActivity());
     private LinearLayout scrollviewLayout;
@@ -52,12 +50,12 @@ public class FeedFragment extends Fragment {
     }
 
     private void populateItemsScrollview() {
-        for (final Product p : db.getAllProducts()) {
+        for (final Product p : db.getAllUnsoldProducts()) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
 
             itemName.setText(p.getName());
-            itemPrice.setText(String.valueOf(p.getPrice()));
+            itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -101,7 +99,7 @@ public class FeedFragment extends Fragment {
         itemDesc = root.findViewById(R.id.detailsInput);
 
         itemName.setText(p.getName());
-        itemPrice.setText(String.valueOf(p.getPrice()));
+        itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
         itemSeller.setText(db.getUserById(p.getSellerId()).getUsername());
         itemCategory.setText(db.getCategoryNameById(p.getCategoryId()));
         itemDesc.setText(p.getDescription());
@@ -112,6 +110,9 @@ public class FeedFragment extends Fragment {
                 .setPositiveButton("BUY", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        scrollviewLayout.removeAllViews();
+                        db.updateBuyerIdOfProductByProductId(p.getId());
+                        populateItemsScrollview();
                         showBoughtItemDialog(p);
                     }
                 })
@@ -120,7 +121,7 @@ public class FeedFragment extends Fragment {
                 }).show();
     }
 
-    public void showBoughtItemDialog(Product p)
+    public void showBoughtItemDialog(final Product p)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -140,7 +141,7 @@ public class FeedFragment extends Fragment {
                 .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.updateUserRating(Database.getCurrentUserId(), sellerRating.getRating());
+                        db.updateUserRating(p.getSellerId(), sellerRating.getRating());
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

@@ -6,26 +6,29 @@ public class Product {
     private String description;
     private int categoryId;
     private int sellerId;
+    private int buyerId;
     private float price;
     private int isSold;
 
     public Product() { }
 
-    public Product(String name, String description, int categoryId, int sellerId, float price) {
+    public Product(String name, String description, int categoryId, int sellerId, int buyerId, float price) {
         this.name = name;
         this.description = description;
         this.categoryId = categoryId;
         this.sellerId = sellerId;
+        this.buyerId = buyerId;
         this.price = price;
         this.isSold = 0;
     }
 
-    public Product(int id, String name, String description, int categoryId, int sellerId, float price, int isSold) {
+    public Product(int id, String name, String description, int categoryId, int sellerId, int buyerId, float price, int isSold) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.categoryId = categoryId;
         this.sellerId = sellerId;
+        this.buyerId = buyerId;
         this.price = price;
         this.isSold = isSold;
     }
@@ -68,6 +71,14 @@ public class Product {
 
     public void setSellerId(int sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public int getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(int buyerId) {
+        this.buyerId = buyerId;
     }
 
     public float getPrice() {

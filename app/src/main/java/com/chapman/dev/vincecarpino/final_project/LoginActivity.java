@@ -139,4 +139,7 @@ public class LoginActivity extends Activity {
             anyInputsAreEmpty();
         }
     };
+
+    @Override
+    public void onBackPressed() { }
 }

@@ -15,7 +15,6 @@ import android.widget.Toolbar;
 public class MainActivity extends Activity {
 
     // TODO: Fix all the layout issues
-    // TODO: remove access activity layers when clicking back btn
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -65,9 +64,7 @@ public class MainActivity extends Activity {
 
         Database.setCurrentUserId(currentUserId);
     }
+
     @Override
-    public void onBackPressed()
-    {
-        //do nothing
-    }
+    public void onBackPressed() { }
 }

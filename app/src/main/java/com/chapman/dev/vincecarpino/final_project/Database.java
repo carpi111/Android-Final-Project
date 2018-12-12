@@ -26,6 +26,7 @@ public class Database extends SQLiteOpenHelper {
             "Description",
             "CategoryID",
             "SellerID",
+            "BuyerID",
             "Price",
             "IsSold"
     };
@@ -98,6 +99,7 @@ public class Database extends SQLiteOpenHelper {
                 + "Description VARCHAR, "
                 + "CategoryID INTEGER, "
                 + "SellerID INTEGER, "
+                + "BuyerID INTEGER, "
                 + "Price DECIMAL(4,2), "
                 + "IsSold TINYINT(1));";
         db.execSQL(sql);
@@ -131,8 +133,6 @@ public class Database extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
-        // TODO: return id of new user
     }
 
     public void insertIntoProduct(Product p) {
@@ -147,8 +147,9 @@ public class Database extends SQLiteOpenHelper {
             values.put(productColumns[1], p.getDescription());
             values.put(productColumns[2], p.getCategoryId());
             values.put(productColumns[3], p.getSellerId());
-            values.put(productColumns[4], p.getPrice());
-            values.put(productColumns[5], p.getIsSold());
+            values.put(productColumns[4], p.getBuyerId());
+            values.put(productColumns[5], p.getPrice());
+            values.put(productColumns[6], p.getIsSold());
 
             db.insertOrThrow(PRODUCT_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -208,10 +209,10 @@ public class Database extends SQLiteOpenHelper {
         c.moveToFirst();
         User user = new User();
 
-        user.setId(Integer.valueOf(c.getString(0)));
+        user.setId((c.getInt(0)));
         user.setUsername(c.getString(1));
         user.setPassword(c.getString(2));
-        user.setRating(Float.valueOf(c.getString(3)));
+        user.setRating((c.getFloat(3)));
 
         c.close();
 
@@ -230,14 +231,14 @@ public class Database extends SQLiteOpenHelper {
         product.setId(Integer.valueOf(c.getString(0)));
         product.setName(c.getString(1));
         product.setDescription(c.getString(2));
-        product.setCategoryId(Integer.valueOf(c.getString(3)));
-        product.setSellerId(Integer.valueOf(c.getString(4)));
-        product.setPrice(Float.valueOf(c.getString(5)));
+        product.setCategoryId((c.getInt(3)));
+        product.setSellerId((c.getInt(4)));
+        product.setBuyerId((c.getInt(5)));
+        product.setPrice((c.getFloat(6)));
 
         c.close();
 
         return product;
-
     }
 
     public int checkIfUserExists(String username, String password) {
@@ -292,7 +293,8 @@ public class Database extends SQLiteOpenHelper {
         }
 
         c.close();
-    return results;
+
+        return results;
     }
 
 
@@ -310,14 +312,111 @@ public class Database extends SQLiteOpenHelper {
             p.setDescription(c.getString(2));
             p.setCategoryId(c.getInt(3));
             p.setSellerId(c.getInt(4));
-            p.setPrice(c.getFloat(5));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
 
             results.add(p);
         }
 
         c.close();
 
-        return  results;
+        return results;
+    }
+
+    public ArrayList<Product> getAllUnsoldProducts() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "0" });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
+    }
+
+    public ArrayList<Product> getAllItemsBoughtByCurrentUser() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=? AND BuyerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "1", String.valueOf(Database.getCurrentUserId()) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
+    }
+
+    public ArrayList<Product> getAllItemsSoldByCurrentUser() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=? AND SellerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "1", String.valueOf(Database.getCurrentUserId()) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
+    }
+
+    public ArrayList<Product> getAllItemsUnsoldByCurrentUser() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=? AND SellerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "0", String.valueOf(Database.getCurrentUserId()) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
     }
 
     public String getCategoryNameById(int id)
@@ -359,10 +458,11 @@ public class Database extends SQLiteOpenHelper {
     {
         //String sql = "UPDATE User SET Rating = ? WHERE ID = ?;";
 
+        float updateValue = getUserRatingById(id) == 0 ? newRating : ((getUserRatingById(id) + newRating) / 2f);
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(userColumns[2], (getUserRatingById(id) + newRating) / 2f);
+        values.put(userColumns[2], updateValue);
         db.update(USER_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
 
 //        db.beginTransaction();
@@ -380,6 +480,38 @@ public class Database extends SQLiteOpenHelper {
 //            db.endTransaction();
 //        }
 
+    }
+
+    public ArrayList<Product> getAllProductsBySellerId(int sellerId) {
+        ArrayList<Product> resultList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE SellerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(sellerId) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            resultList.add(p);
+        }
+
+        c.close();
+
+        return resultList;
+    }
+
+    public void updateBuyerIdOfProductByProductId(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(productColumns[4], Database.getCurrentUserId());
+        values.put(productColumns[6], 1);
+        db.update(PRODUCT_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
     }
 //    public ArrayList<String> getProductDetails(int id)
 //    {

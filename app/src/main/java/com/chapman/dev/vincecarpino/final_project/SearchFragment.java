@@ -117,14 +117,14 @@ public class SearchFragment extends Fragment {
         String catName;
         String prodName;
         String search;
-        resultList = db.getAllProducts();
+        resultList = db.getAllUnsoldProducts();
 
         for(int i = 0; i<resultList.size(); ++i)
         {
             catID = resultList.get(i).getCategoryId();
             catName = db.getCategoryNameById(catID);
-            prodName = resultList.get(i).getName();
-            search = searchInput.getText().toString();
+            prodName = resultList.get(i).getName().toLowerCase();
+            search = searchInput.getText().toString().toLowerCase();
             categorySelection = categorySpinner.getSelectedItem().toString();
             Log.e("*********SEARCH searchName", search);
 
@@ -157,7 +157,7 @@ public class SearchFragment extends Fragment {
             TextView itemPrice = new TextView(getActivity());
 
             itemName.setText(product.getName());
-            itemPrice.setText(String.valueOf(product.getPrice()));
+            itemPrice.setText(String.format("$%s0", String.valueOf(product.getPrice())));
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -200,7 +200,7 @@ public class SearchFragment extends Fragment {
         itemDesc = root.findViewById(R.id.detailsInput);
 
         itemName.setText(p.getName());
-        itemPrice.setText(String.valueOf(p.getPrice()));
+        itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
         itemSeller.setText(db.getUserById(p.getSellerId()).getUsername());
         itemCategory.setText(db.getCategoryNameById(p.getCategoryId()));
         itemDesc.setText(p.getDescription());
