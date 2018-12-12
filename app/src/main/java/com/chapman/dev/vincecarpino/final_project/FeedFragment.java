@@ -67,17 +67,18 @@ public class FeedFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 80, 10, 80);
-            itemPrice.setPadding(10, 80, 10, 80);
-            tag.setPadding(10,80,10,80);
+            itemName.setPadding(10, 30, 10, 30);
+            itemPrice.setPadding(10, 30, 10, 30);
+            tag.setPadding(10,30,10,30);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
             LinearLayout padLayout = new LinearLayout(getActivity());
-            padLayout.setPadding(10,20,10,20);
+            padLayout.setPadding(10,10,10,10);
 
             newLayout.addView(tag);
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
+            newLayout.setPadding(10, 10, 10, 10);
             newLayout.setBackgroundResource(R.drawable.border);
             newLayout.setClickable(true);
 
