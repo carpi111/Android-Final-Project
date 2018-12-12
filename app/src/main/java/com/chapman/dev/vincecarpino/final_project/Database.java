@@ -133,8 +133,6 @@ public class Database extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
-        // TODO: return id of new user
     }
 
     public void insertIntoProduct(Product p) {
@@ -322,7 +320,103 @@ public class Database extends SQLiteOpenHelper {
 
         c.close();
 
-        return  results;
+        return results;
+    }
+
+    public ArrayList<Product> getAllUnsoldProducts() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "0" });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
+    }
+
+    public ArrayList<Product> getAllItemsBoughtByCurrentUser() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=? AND BuyerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "1", String.valueOf(Database.getCurrentUserId()) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
+    }
+
+    public ArrayList<Product> getAllItemsSoldByCurrentUser() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=? AND SellerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "1", String.valueOf(Database.getCurrentUserId()) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
+    }
+
+    public ArrayList<Product> getAllItemsUnsoldByCurrentUser() {
+        ArrayList<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE IsSold=? AND SellerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { "0", String.valueOf(Database.getCurrentUserId()) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
+
+            results.add(p);
+        }
+
+        c.close();
+
+        return results;
     }
 
     public String getCategoryNameById(int id)
@@ -364,10 +458,11 @@ public class Database extends SQLiteOpenHelper {
     {
         //String sql = "UPDATE User SET Rating = ? WHERE ID = ?;";
 
+        float updateValue = getUserRatingById(id) == 0 ? newRating : ((getUserRatingById(id) + newRating) / 2f);
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(userColumns[2], (getUserRatingById(id) + newRating) / 2f);
+        values.put(userColumns[2], updateValue);
         db.update(USER_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
 
 //        db.beginTransaction();
