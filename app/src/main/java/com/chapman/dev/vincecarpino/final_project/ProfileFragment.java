@@ -23,15 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 // TODO: Populate items lists
 
 public class ProfileFragment extends Fragment {
     private static final int ADD_ITEM_ID  = Menu.FIRST;
     private static final int LOGOUT_ID = Menu.FIRST + 1;
-    private static final String SELECTED_BUTTON_COLOR = "#920027";
-    private static final String DESELECTED_BUTTON_COLOR = "#000000";
+    private static final String SELECTED_TEXT_COLOR = "#920027";
+    private static final String DESELECTED_TEXT_COLOR = "#000000";
     int ID = Database.getCurrentUserId();
     Database db = Database.getInstance(getActivity());
 
@@ -56,8 +54,6 @@ public class ProfileFragment extends Fragment {
         boughtButton    = rootView.findViewById(R.id.boughtBtn);
         soldButton      = rootView.findViewById(R.id.soldBtn);
         sellingButton   = rootView.findViewById(R.id.sellingBtn);
-        //profileRating.setEnabled(false); //not clickable
-        //profileRating.setClickable(false);
         profileRating.setIsIndicator(true);
         populateProfile(ID);
 
@@ -75,9 +71,9 @@ public class ProfileFragment extends Fragment {
         soldButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soldButton.setTextColor(Color.parseColor(SELECTED_BUTTON_COLOR));
-                boughtButton.setTextColor(Color.parseColor(DESELECTED_BUTTON_COLOR));
-                sellingButton.setTextColor(Color.parseColor(DESELECTED_BUTTON_COLOR));
+                soldButton.setTextColor(Color.parseColor(SELECTED_TEXT_COLOR));
+                boughtButton.setTextColor(Color.parseColor(DESELECTED_TEXT_COLOR));
+                sellingButton.setTextColor(Color.parseColor(DESELECTED_TEXT_COLOR));
             }
         });
     }
@@ -86,9 +82,9 @@ public class ProfileFragment extends Fragment {
         boughtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soldButton.setTextColor(Color.parseColor(DESELECTED_BUTTON_COLOR));
-                boughtButton.setTextColor(Color.parseColor(SELECTED_BUTTON_COLOR));
-                sellingButton.setTextColor(Color.parseColor(DESELECTED_BUTTON_COLOR));
+                soldButton.setTextColor(Color.parseColor(DESELECTED_TEXT_COLOR));
+                boughtButton.setTextColor(Color.parseColor(SELECTED_TEXT_COLOR));
+                sellingButton.setTextColor(Color.parseColor(DESELECTED_TEXT_COLOR));
             }
         });
     }
@@ -97,9 +93,9 @@ public class ProfileFragment extends Fragment {
         sellingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soldButton.setTextColor(Color.parseColor(DESELECTED_BUTTON_COLOR));
-                boughtButton.setTextColor(Color.parseColor(DESELECTED_BUTTON_COLOR));
-                sellingButton.setTextColor(Color.parseColor(SELECTED_BUTTON_COLOR));
+                soldButton.setTextColor(Color.parseColor(DESELECTED_TEXT_COLOR));
+                boughtButton.setTextColor(Color.parseColor(DESELECTED_TEXT_COLOR));
+                sellingButton.setTextColor(Color.parseColor(SELECTED_TEXT_COLOR));
                 populateLayoutWithSelling();
             }
         });
@@ -160,7 +156,7 @@ public class ProfileFragment extends Fragment {
     private void populateLayoutWithSelling() {
         filterLayout.removeAllViews();
 
-        for (final Product p : db.getAllProductsBySellerId(Database.getCurrentUserId())) {
+        for (final Product p : db.getAllProductsBySellerId(ID)) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
 
@@ -187,7 +183,7 @@ public class ProfileFragment extends Fragment {
             newLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                        showDetailsDialog(p);
+                        showDetailsDialog(p);
                 }
             });
 
@@ -212,16 +208,8 @@ public class ProfileFragment extends Fragment {
         itemCategory.setText(db.getCategoryNameById(p.getCategoryId()));
         itemDesc.setText(p.getDescription());
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(root)
-                .setPositiveButton("BUY", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-//                        showBoughtItemDialog(p);
-                    }
-                })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) { }
                 }).show();
     }

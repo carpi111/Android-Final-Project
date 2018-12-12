@@ -111,6 +111,8 @@ public class FeedFragment extends Fragment {
                 .setPositiveButton("BUY", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        // TODO: Set buyerId of product p
+                        db.updateBuyerIdOfProductByProductId(p.getId());
                         showBoughtItemDialog(p);
                     }
                 })

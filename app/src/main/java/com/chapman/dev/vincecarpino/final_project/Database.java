@@ -26,6 +26,7 @@ public class Database extends SQLiteOpenHelper {
             "Description",
             "CategoryID",
             "SellerID",
+            "BuyerID",
             "Price",
             "IsSold"
     };
@@ -98,6 +99,7 @@ public class Database extends SQLiteOpenHelper {
                 + "Description VARCHAR, "
                 + "CategoryID INTEGER, "
                 + "SellerID INTEGER, "
+                + "BuyerID INTEGER, "
                 + "Price DECIMAL(4,2), "
                 + "IsSold TINYINT(1));";
         db.execSQL(sql);
@@ -147,8 +149,9 @@ public class Database extends SQLiteOpenHelper {
             values.put(productColumns[1], p.getDescription());
             values.put(productColumns[2], p.getCategoryId());
             values.put(productColumns[3], p.getSellerId());
-            values.put(productColumns[4], p.getPrice());
-            values.put(productColumns[5], p.getIsSold());
+            values.put(productColumns[4], p.getBuyerId());
+            values.put(productColumns[5], p.getPrice());
+            values.put(productColumns[6], p.getIsSold());
 
             db.insertOrThrow(PRODUCT_TABLE, null, values);
             db.setTransactionSuccessful();
@@ -208,10 +211,10 @@ public class Database extends SQLiteOpenHelper {
         c.moveToFirst();
         User user = new User();
 
-        user.setId(Integer.valueOf(c.getString(0)));
+        user.setId((c.getInt(0)));
         user.setUsername(c.getString(1));
         user.setPassword(c.getString(2));
-        user.setRating(Float.valueOf(c.getString(3)));
+        user.setRating((c.getFloat(3)));
 
         c.close();
 
@@ -230,14 +233,14 @@ public class Database extends SQLiteOpenHelper {
         product.setId(Integer.valueOf(c.getString(0)));
         product.setName(c.getString(1));
         product.setDescription(c.getString(2));
-        product.setCategoryId(Integer.valueOf(c.getString(3)));
-        product.setSellerId(Integer.valueOf(c.getString(4)));
-        product.setPrice(Float.valueOf(c.getString(5)));
+        product.setCategoryId((c.getInt(3)));
+        product.setSellerId((c.getInt(4)));
+        product.setBuyerId((c.getInt(5)));
+        product.setPrice((c.getFloat(6)));
 
         c.close();
 
         return product;
-
     }
 
     public int checkIfUserExists(String username, String password) {
@@ -292,7 +295,8 @@ public class Database extends SQLiteOpenHelper {
         }
 
         c.close();
-    return results;
+
+        return results;
     }
 
 
@@ -310,7 +314,8 @@ public class Database extends SQLiteOpenHelper {
             p.setDescription(c.getString(2));
             p.setCategoryId(c.getInt(3));
             p.setSellerId(c.getInt(4));
-            p.setPrice(c.getFloat(5));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
 
             results.add(p);
         }
@@ -395,7 +400,8 @@ public class Database extends SQLiteOpenHelper {
             p.setDescription(c.getString(2));
             p.setCategoryId(c.getInt(3));
             p.setSellerId(c.getInt(4));
-            p.setPrice(c.getFloat(5));
+            p.setBuyerId(c.getInt(5));
+            p.setPrice(c.getFloat(6));
 
             resultList.add(p);
         }
@@ -403,6 +409,14 @@ public class Database extends SQLiteOpenHelper {
         c.close();
 
         return resultList;
+    }
+
+    public void updateBuyerIdOfProductByProductId(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(productColumns[4], Database.getCurrentUserId());
+        values.put(productColumns[6], 1);
+        db.update(PRODUCT_TABLE, values, "ID=?",new String[] { String.valueOf(id) });
     }
 //    public ArrayList<String> getProductDetails(int id)
 //    {

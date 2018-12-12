@@ -97,7 +97,7 @@ public class AddItemFragment extends Fragment {
                 int newItemCatId        = db.getCategoryIdByName(newItemCat);
                 int sellerId            = Database.getCurrentUserId();
 
-                Product newProduct = new Product(newItemName, newItemDesc, newItemCatId, sellerId, newItemPriceFloat);
+                Product newProduct = new Product(newItemName, newItemDesc, newItemCatId, sellerId, -1, newItemPriceFloat);
                 db.insertIntoProduct(newProduct);
 
                 FragmentManager fragmentManager = getFragmentManager();
