@@ -10,40 +10,34 @@
         android:id="@+id/usernameText"
         android:layout_width="367dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
+        android:layout_marginTop="135dp"
         android:gravity="center"
         android:text="Pete_panther"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:textSize="38sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/locationText"
-        android:layout_width="293dp"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginRight="21dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="San Diego, CA"
         android:textColor="@android:color/black"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameText" />
 
     <RatingBar
         android:id="@+id/userRatingBar"
         android:layout_width="245dp"
-        android:layout_height="44dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="22dp"
         android:layout_marginStart="144dp"
         android:layout_marginTop="12dp"
@@ -55,63 +49,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationText" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="96dp"
-        android:layout_height="84dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="48dp"
-        android:src="@drawable/person"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/boughtBtn"
-        android:layout_width="126dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="20dp"
         android:text="Bought"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toStartOf="@+id/soldBtn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/soldBtn"
-        android:layout_width="126dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="4dp"
         android:text="Sold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toStartOf="@+id/sellingBtn"
-        app:layout_constraintStart_toEndOf="@+id/boughtBtn" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/sellingBtn"
-        android:layout_width="126dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="20dp"
         android:text="Selling"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/soldBtn" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="377dp"
-        android:layout_height="304dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="366dp"
+        android:layout_height="314dp"
+        android:layout_marginBottom="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -120,5 +96,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="26dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_action_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
 
 </android.support.constraint.ConstraintLayout>

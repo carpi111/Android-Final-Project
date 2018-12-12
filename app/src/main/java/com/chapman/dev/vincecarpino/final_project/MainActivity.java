@@ -64,4 +64,9 @@ public class MainActivity extends Activity {
 
         Database.setCurrentUserId(currentUserId);
     }
+    @Override
+    public void onBackPressed()
+    {
+        //do nothing
+    }
 }
