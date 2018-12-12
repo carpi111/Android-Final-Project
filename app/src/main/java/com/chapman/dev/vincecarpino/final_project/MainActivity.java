@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_layout);
 
         Toolbar actionbar = findViewById(R.id.action_bar);
+        actionbar.setTitle("Free & For Sale");
         setActionBar(actionbar);
 
         BottomNavigationView menu;
