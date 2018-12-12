@@ -381,6 +381,29 @@ public class Database extends SQLiteOpenHelper {
 //        }
 
     }
+
+    public ArrayList<Product> getAllProductsBySellerId(int sellerId) {
+        ArrayList<Product> resultList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product WHERE SellerID=?;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(sellerId) });
+
+        while (c.moveToNext()) {
+            Product p = new Product();
+            p.setId(c.getInt(0));
+            p.setName(c.getString(1));
+            p.setDescription(c.getString(2));
+            p.setCategoryId(c.getInt(3));
+            p.setSellerId(c.getInt(4));
+            p.setPrice(c.getFloat(5));
+
+            resultList.add(p);
+        }
+
+        c.close();
+
+        return resultList;
+    }
 //    public ArrayList<String> getProductDetails(int id)
 //    {
 //        ArrayList<String> productDetails = new ArrayList<>();

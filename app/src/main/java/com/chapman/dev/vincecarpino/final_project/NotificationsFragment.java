@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-// TODO: Long press to delete
-
 public class NotificationsFragment extends Fragment {
     private ArrayList<String> allNotifs = new ArrayList<>();
     private LinearLayout scrollviewLayout;
