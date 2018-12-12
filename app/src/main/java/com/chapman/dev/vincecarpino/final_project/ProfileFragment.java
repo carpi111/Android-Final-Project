@@ -1,10 +1,17 @@
 package com.chapman.dev.vincecarpino.final_project;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -30,10 +37,14 @@ public class ProfileFragment extends Fragment {
     private TextView profileLocation;
     private RatingBar profileRating;
 
+    AppLocationService appLocationService;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile, container, false);
+
+        //appLocationService = new AppLocationService(getActivity());
 
         profileUsername = rootView.findViewById(R.id.usernameText);
         profileLocation = rootView.findViewById(R.id.locationText);
@@ -42,7 +53,6 @@ public class ProfileFragment extends Fragment {
         //profileRating.setClickable(false);
         profileRating.setIsIndicator(true);
         populateProfile(ID);
-
         Log.e("**********Profile", " OnCreateView");
         return rootView;
     }
@@ -51,7 +61,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("**********Profile", " OnCreate");
-
+        appLocationService = new AppLocationService(getActivity());
         setHasOptionsMenu(true);
     }
 
@@ -94,8 +104,61 @@ public class ProfileFragment extends Fragment {
     {
         User user = db.getUserById(id);
         profileUsername.setText(user.getUsername());
-        //TODO: location
+        populateLocation();
         profileRating.setRating(user.getRating());
 
+    }
+
+    public void populateLocation()
+    {
+        Location location = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            LocationAddress locationAddress = new LocationAddress();
+            locationAddress.getAddressFromLocation(latitude, longitude,
+                    getActivity(), new GeocoderHandler());
+        } else {
+            showSettingsAlert();
+        }
+    }
+
+    public void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                getActivity());
+        alertDialog.setTitle("SETTINGS");
+        alertDialog.setMessage("Enable Location Provider! Go to settings menu?");
+        alertDialog.setPositiveButton("Settings",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(
+                                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        getActivity().startActivity(intent);
+                    }
+                });
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            profileLocation.setText(locationAddress);
+            Log.e("*****************PROFILE", locationAddress);
+        }
     }
 }
