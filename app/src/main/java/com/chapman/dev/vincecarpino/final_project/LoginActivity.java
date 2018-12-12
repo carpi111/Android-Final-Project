@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -25,6 +26,7 @@ public class LoginActivity extends Activity {
     private EditText createAcctPasswordInput;
     private EditText createAcctConfPassInput;
     private TextView createAccountText;
+    private TextView chappy;
 
     Database db = Database.getInstance(this);
 
@@ -37,6 +39,7 @@ public class LoginActivity extends Activity {
         usernameInput     = findViewById(R.id.usernameInput);
         passwordInput     = findViewById(R.id.passwordInput);
         createAccountText = findViewById(R.id.createAccountText);
+        chappy            = findViewById(R.id.titleText);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

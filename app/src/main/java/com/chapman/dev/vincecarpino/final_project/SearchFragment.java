@@ -46,7 +46,6 @@ public class SearchFragment extends Fragment {
     private RatingBar sellerRating;
 
     private Database db = Database.getInstance(getActivity());
-    int categoryID;
     String categorySelection;
     String searchTxt;
 
@@ -59,18 +58,14 @@ public class SearchFragment extends Fragment {
         searchLinLay = rootView.findViewById(R.id.searchLinLayout);
         searchBtn = rootView.findViewById(R.id.searchBtn);
 
-
         setUpCategorySpinner();
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                categorySelection = categorySpinner.getSelectedItem().toString();
-
-//                categoryID = db.getCategoryIdByName(categorySelection);
-                Log.e("********SEARCH", "btn clicked");
-
-                realList = getResultList(searchTxt);
+                realList.clear(); //stops duplicates
+                searchLinLay.removeAllViews();
+                realList = getResultList();
                 populateLinLay(realList);
             }
         });
@@ -116,12 +111,12 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public ArrayList<Product> getResultList(String search)
+    public ArrayList<Product> getResultList()
     {
         int catID;
         String catName;
-        String searchName;
         String prodName;
+        String search;
         resultList = db.getAllProducts();
 
         for(int i = 0; i<resultList.size(); ++i)
@@ -129,15 +124,21 @@ public class SearchFragment extends Fragment {
             catID = resultList.get(i).getCategoryId();
             catName = db.getCategoryNameById(catID);
             prodName = resultList.get(i).getName();
-            Log.e("*********SEARCH prodName", prodName);
-            searchTxt = searchInput.getText().toString();
-            //.contains
+            search = searchInput.getText().toString();
+            categorySelection = categorySpinner.getSelectedItem().toString();
             Log.e("*********SEARCH searchName", search);
 
-            if(catName.equals(categorySelection))
+            if(categorySelection.equals("All Categories"))
+            {
+                if(prodName.contains(search))
+                {
+                    tempList.add(resultList.get(i));
+                }
+            }
+
+            else if(catName.equals(categorySelection) && prodName.contains(search))
             {
                     tempList.add(resultList.get(i));
-
 
             }
             else

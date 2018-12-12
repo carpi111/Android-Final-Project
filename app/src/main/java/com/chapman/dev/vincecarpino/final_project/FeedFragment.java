@@ -66,13 +66,14 @@ public class FeedFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 10, 10, 10);
-            itemPrice.setPadding(10, 10, 10, 10);
+            itemName.setPadding(10, 30, 10, 30);
+            itemPrice.setPadding(10, 30, 10, 30);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
 
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
+            newLayout.setBackgroundResource(R.drawable.border);
 
             newLayout.setClickable(true);
 
@@ -148,4 +149,5 @@ public class FeedFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) { }
                 }).show();
     }
+
 }
