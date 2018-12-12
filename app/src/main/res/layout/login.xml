@@ -5,22 +5,21 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fenesta">
+    android:background="@drawable/palm1">
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginRight="160dp"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="117dp"
+        android:fontFamily="@font/header_fonts"
         android:text="Chappy"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="35sp"
-        android:fontFamily="@font/allan"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,13 +28,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="124dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginRight="124dp"
         android:layout_marginStart="120dp"
+        android:layout_marginTop="7dp"
         android:text="Free &amp; For Sale"
+        android:textColor="@color/black"
         android:textSize="35sp"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -43,27 +42,26 @@
         android:id="@+id/userText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="44dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="74dp"
         android:text=" Username"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/titleText2" />
 
     <EditText
         android:id="@+id/usernameInput"
         android:layout_width="323dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="31dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="31dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="18dp"
         android:ems="10"
         android:hint="Pete the Panther"
         android:inputType="textPersonName"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userText" />
 
@@ -79,7 +77,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
@@ -104,19 +102,17 @@
         android:id="@+id/createAccountText"
         android:layout_width="237dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="74dp"
+        android:layout_marginBottom="62dp"
         android:layout_marginEnd="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="22dp"
         android:foregroundGravity="center_horizontal"
         android:gravity="center"
         android:text="No account yet? Create one"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-        app:layout_constraintVertical_bias="0.01" />
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 
 </android.support.constraint.ConstraintLayout>

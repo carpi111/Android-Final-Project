@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/Theme.AppCompat.Light">
+        android:popupTheme="@style/Theme.AppCompat.Light">
     </android.widget.Toolbar>
 
     <FrameLayout
@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/navigation"/>

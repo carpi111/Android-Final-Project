@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,9 +54,11 @@ public class FeedFragment extends Fragment {
         for (final Product p : db.getAllUnsoldProducts()) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
+            ImageView tag = new ImageView(getActivity());
 
             itemName.setText(p.getName());
             itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
+            tag.setImageResource(R.drawable.tag);
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -64,15 +67,18 @@ public class FeedFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 30, 10, 30);
-            itemPrice.setPadding(10, 30, 10, 30);
+            itemName.setPadding(10, 80, 10, 80);
+            itemPrice.setPadding(10, 80, 10, 80);
+            tag.setPadding(10,80,10,80);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
+            LinearLayout padLayout = new LinearLayout(getActivity());
+            padLayout.setPadding(10,20,10,20);
 
+            newLayout.addView(tag);
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
             newLayout.setBackgroundResource(R.drawable.border);
-
             newLayout.setClickable(true);
 
             newLayout.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +89,7 @@ public class FeedFragment extends Fragment {
             });
 
             scrollviewLayout.addView(newLayout);
+            scrollviewLayout.addView(padLayout);
         }
     }
 

@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -171,9 +172,11 @@ public class ProfileFragment extends Fragment {
         for (final Product p : db.getAllItemsUnsoldByCurrentUser()) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
+            ImageView tag = new ImageView(getActivity());
 
             itemName.setText(p.getName());
             itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
+            tag.setBackgroundResource(R.drawable.tag);
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -182,11 +185,15 @@ public class ProfileFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 10, 10, 10);
-            itemPrice.setPadding(10, 10, 10, 10);
+            itemName.setPadding(10, 80, 10, 80);
+            itemPrice.setPadding(10, 80, 10, 80);
+            tag.setPadding(10,80,10,80);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
+            LinearLayout padLayout = new LinearLayout(getActivity());
+            padLayout.setPadding(10,20,10,20);
 
+            newLayout.addView(tag);
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
 
@@ -200,6 +207,7 @@ public class ProfileFragment extends Fragment {
             });
 
             filterLayout.addView(newLayout);
+            filterLayout.addView(padLayout);
         }
     }
 
@@ -209,9 +217,11 @@ public class ProfileFragment extends Fragment {
         for (final Product p : db.getAllItemsBoughtByCurrentUser()) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
+            ImageView tag = new ImageView(getActivity());
 
             itemName.setText(p.getName());
             itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
+            tag.setBackgroundResource(R.drawable.tag);
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -220,11 +230,14 @@ public class ProfileFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 10, 10, 10);
-            itemPrice.setPadding(10, 10, 10, 10);
+            itemName.setPadding(10, 80, 10, 80);
+            itemPrice.setPadding(10, 80, 10, 80);
+            tag.setPadding(10,80,10,80);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
+            LinearLayout padLayout = new LinearLayout(getActivity());
 
+            newLayout.addView(tag);
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
 
@@ -238,6 +251,7 @@ public class ProfileFragment extends Fragment {
             });
 
             filterLayout.addView(newLayout);
+            filterLayout.addView(padLayout);
         }
     }
 
@@ -247,9 +261,11 @@ public class ProfileFragment extends Fragment {
         for (final Product p : db.getAllItemsSoldByCurrentUser()) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
+            ImageView tag = new ImageView(getActivity());
 
             itemName.setText(p.getName());
             itemPrice.setText(String.format("$%s0", String.valueOf(p.getPrice())));
+            tag.setBackgroundResource(R.drawable.tag);
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -258,11 +274,14 @@ public class ProfileFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 10, 10, 10);
-            itemPrice.setPadding(10, 10, 10, 10);
+            itemName.setPadding(10, 80, 10, 80);
+            itemPrice.setPadding(10, 80, 10, 80);
+            tag.setPadding(10,80,10,80);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
+            LinearLayout padLayout = new LinearLayout(getActivity());
 
+            newLayout.addView(tag);
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
 
@@ -276,6 +295,7 @@ public class ProfileFragment extends Fragment {
             });
 
             filterLayout.addView(newLayout);
+            filterLayout.addView(padLayout);
         }
     }
 

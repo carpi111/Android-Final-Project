@@ -97,12 +97,14 @@ public class NotificationsFragment extends Fragment {
             notifTitle.setPadding(10, 30, 10, 30);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
+            LinearLayout padLayout = new LinearLayout(getActivity());
 
             newLayout.addView(notifIcon);
             newLayout.addView(notifTitle);
 
             newLayout.setBackgroundResource(R.drawable.border);
             newLayout.setPadding(10, 10, 10, 10);
+            padLayout.setPadding(10,10,10,10);
 
             newLayout.setClickable(true);
             addLongClickListenerToLayout(newLayout);
@@ -110,6 +112,7 @@ public class NotificationsFragment extends Fragment {
 //            registerForContextMenu(newLayout);
 
             scrollviewLayout.addView(newLayout);
+            scrollviewLayout.addView(padLayout);
         }
     }
 

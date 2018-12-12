@@ -25,15 +25,19 @@ public class MainActivity extends Activity {
             switch (menuItem.getItemId()) {
                 case (R.id.navigation_profile):
                     transaction.replace(R.id.container, new ProfileFragment());
+                    getActionBar().show();
                     break;
                 case (R.id.navigation_home):
                     transaction.replace(R.id.container, new FeedFragment());
+                    getActionBar().hide();
                     break;
                 case (R.id.navigation_search):
                     transaction.replace(R.id.container, new SearchFragment());
+                    getActionBar().hide();
                     break;
                 case (R.id.navigation_notifications):
                     transaction.replace(R.id.container, new NotificationsFragment());
+                    getActionBar().hide();
                     break;
             }
 
@@ -49,7 +53,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_layout);
 
         Toolbar actionbar = findViewById(R.id.action_bar);
-        actionbar.setTitle("Free & For Sale");
+        actionbar.setTitle("Your Profile");
+
         setActionBar(actionbar);
 
         BottomNavigationView menu;

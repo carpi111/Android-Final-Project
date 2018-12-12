@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -155,9 +156,11 @@ public class SearchFragment extends Fragment {
         for (final Product product : productList) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
+            ImageView tag = new ImageView(getActivity());
 
             itemName.setText(product.getName());
             itemPrice.setText(String.format("$%s0", String.valueOf(product.getPrice())));
+            tag.setBackgroundResource(R.drawable.tag);
 
             itemName.setTypeface(null, Typeface.BOLD);
 
@@ -166,14 +169,19 @@ public class SearchFragment extends Fragment {
             itemName.setTextSize(textSize);
             itemPrice.setTextSize(textSize);
 
-            itemName.setPadding(10, 10, 10, 10);
-            itemPrice.setPadding(10, 10, 10, 10);
+            itemName.setPadding(10, 80, 10, 80);
+            itemPrice.setPadding(10, 80, 10, 80);
+            tag.setPadding(10,80,10,80);
 
             LinearLayout newLayout = new LinearLayout(getActivity());
+            LinearLayout padLayout = new LinearLayout(getActivity());
+            padLayout.setPadding(10,20,10,20);
 
+            newLayout.addView(tag);
             newLayout.addView(itemName);
             newLayout.addView(itemPrice);
 
+            newLayout.setBackgroundResource(R.drawable.border);
             newLayout.setClickable(true);
 
             newLayout.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +192,7 @@ public class SearchFragment extends Fragment {
             });
 
             searchLinLay.addView(newLayout);
+            searchLinLay.addView(padLayout);
         }
     }
 
