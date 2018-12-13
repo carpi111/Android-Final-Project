@@ -8,15 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +33,6 @@ public class ProfileFragment extends Fragment {
     Database db = Database.getInstance(getActivity());
 
     private TextView profileUsername;
-    private TextView profileLocation;
     private RatingBar profileRating;
 
     private LinearLayout filterLayout;
@@ -53,12 +46,12 @@ public class ProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.profile, container, false);
 
         profileUsername = rootView.findViewById(R.id.usernameText);
-        profileLocation = rootView.findViewById(R.id.locationText);
         profileRating   = rootView.findViewById(R.id.userRatingBar);
         filterLayout    = rootView.findViewById(R.id.profileLinLayout);
         boughtButton    = rootView.findViewById(R.id.boughtBtn);
         soldButton      = rootView.findViewById(R.id.soldBtn);
         sellingButton   = rootView.findViewById(R.id.sellingBtn);
+
         profileRating.setIsIndicator(true);
         populateProfile(ID);
 
@@ -73,9 +66,7 @@ public class ProfileFragment extends Fragment {
 
         ScrollView scrollView = rootView.findViewById(R.id.scrollView2);
         scrollView.setBackgroundResource(R.drawable.border);
-//        filterLayout.setBackgroundResource(R.drawable.border);
 
-        Log.e("**********Profile", " OnCreateView");
         return rootView;
     }
 
@@ -118,7 +109,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("**********Profile", " OnCreate");
 
         setHasOptionsMenu(true);
     }
@@ -126,9 +116,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("**********Profile", " OnResume");
         populateProfile(ID);
-
     }
 
     @Override
@@ -158,12 +146,10 @@ public class ProfileFragment extends Fragment {
         return true;
     }
 
-    public void populateProfile(int id)
-    {
+    public void populateProfile(int id) {
         User user = db.getUserById(id);
         profileUsername.setText(user.getUsername());
         profileRating.setRating(user.getRating());
-
     }
 
     private void populateLayoutWithSelling() {

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,23 +31,20 @@ public class SearchFragment extends Fragment {
     private LinearLayout searchLinLay;
     private ImageButton searchBtn;
     ArrayList<Product> resultList = new ArrayList<>();
-    ArrayList<Product> tempList = new ArrayList<>();
-    ArrayList<Product> realList = new ArrayList<>();
+    ArrayList<Product> tempList   = new ArrayList<>();
+    ArrayList<Product> realList   = new ArrayList<>();
 
-    //Details Dialog
     private TextView itemName;
     private TextView itemPrice;
     private TextView itemSeller;
     private TextView itemCategory;
     private TextView itemDesc;
 
-    //BoughtItem Dialog
     private TextView rateSellerQuestion;
     private RatingBar sellerRating;
 
     private Database db = Database.getInstance(getActivity());
     String categorySelection;
-    String searchTxt;
 
     @Nullable
     @Override
@@ -64,7 +60,7 @@ public class SearchFragment extends Fragment {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                realList.clear(); //stops duplicates
+                realList.clear();
                 searchLinLay.removeAllViews();
                 realList = getResultList();
                 populateLinLay(realList);
@@ -79,8 +75,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void setUpCategorySpinner()
-    {
+    public void setUpCategorySpinner() {
         List<String> list = new ArrayList<>();
         ArrayList<String> categories = new ArrayList<>();
         ArrayAdapter<String> adapter;
@@ -101,7 +96,6 @@ public class SearchFragment extends Fragment {
                 "Sporting Goods"
         };
 
-
         categories.addAll(Arrays.asList(allCategories));
         list.addAll(categories);
 
@@ -109,50 +103,37 @@ public class SearchFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         categorySpinner.setAdapter(adapter);
-
     }
 
-    public ArrayList<Product> getResultList()
-    {
+    public ArrayList<Product> getResultList() {
         int catID;
         String catName;
         String prodName;
         String search;
         resultList = db.getAllUnsoldProducts();
 
-        for(int i = 0; i<resultList.size(); ++i)
-        {
+        for (int i = 0; i < resultList.size(); ++i) {
             catID = resultList.get(i).getCategoryId();
             catName = db.getCategoryNameById(catID);
             prodName = resultList.get(i).getName().toLowerCase();
             search = searchInput.getText().toString().toLowerCase();
             categorySelection = categorySpinner.getSelectedItem().toString();
-            Log.e("*********SEARCH searchName", search);
 
-            if(categorySelection.equals("All Categories"))
-            {
-                if(prodName.contains(search))
-                {
+            if(categorySelection.equals("All Categories")) {
+                if(prodName.contains(search)) {
                     tempList.add(resultList.get(i));
                 }
-            }
-
-            else if(catName.equals(categorySelection) && prodName.contains(search))
-            {
+            } else if(catName.equals(categorySelection) && prodName.contains(search)) {
                     tempList.add(resultList.get(i));
-
-            }
-            else
-            {
+            } else {
                 Log.e("************SEARCH", "nothing printed");
             }
         }
-        Log.e("********SEARCH", "before populateList");
+
         return tempList;
     }
 
-    private void populateLinLay(ArrayList<Product> productList)
-    {
+    private void populateLinLay(ArrayList<Product> productList) {
         for (final Product product : productList) {
             TextView itemName = new TextView(getActivity());
             TextView itemPrice = new TextView(getActivity());
@@ -197,8 +178,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public void showDetailsDialog(final Product p)
-    {
+    public void showDetailsDialog(final Product p) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View root = inflater.inflate(R.layout.details, null);
@@ -215,8 +195,6 @@ public class SearchFragment extends Fragment {
         itemCategory.setText(db.getCategoryNameById(p.getCategoryId()));
         itemDesc.setText(p.getDescription());
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(root)
                 .setPositiveButton("BUY", new DialogInterface.OnClickListener() {
                     @Override
@@ -229,8 +207,7 @@ public class SearchFragment extends Fragment {
                 }).show();
     }
 
-    public void showBoughtItemDialog(Product p)
-    {
+    public void showBoughtItemDialog(Product p) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View root = inflater.inflate(R.layout.buy_item_dialog, null);
@@ -238,13 +215,9 @@ public class SearchFragment extends Fragment {
         rateSellerQuestion = root.findViewById(R.id.rateSellerTxt);
         sellerRating = root.findViewById(R.id.buyRatingBar);
 
-
-
         String sellerQ = "How would you rate " + db.getUserById(p.getSellerId()).getUsername().toUpperCase() + "?";
         rateSellerQuestion.setText(sellerQ);
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(root)
                 .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                     @Override

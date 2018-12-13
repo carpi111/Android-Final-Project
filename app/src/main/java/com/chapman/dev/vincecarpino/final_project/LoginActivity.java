@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity {
-
     private Button   loginBtn;
     private EditText usernameInput;
     private EditText passwordInput;
@@ -26,7 +21,6 @@ public class LoginActivity extends Activity {
     private EditText createAcctPasswordInput;
     private EditText createAcctConfPassInput;
     private TextView createAccountText;
-    private TextView chappy;
 
     Database db = Database.getInstance(this);
 
@@ -39,7 +33,6 @@ public class LoginActivity extends Activity {
         usernameInput     = findViewById(R.id.usernameInput);
         passwordInput     = findViewById(R.id.passwordInput);
         createAccountText = findViewById(R.id.createAccountText);
-        chappy            = findViewById(R.id.titleText);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,17 +82,13 @@ public class LoginActivity extends Activity {
                             db.insertIntoUser(newUser);
                         }
 
-                        //populate login textviews after creating an account
                         usernameInput.setText(createAcctUsernameInput.getText().toString());
                         passwordInput.setText(createAcctPasswordInput.getText().toString());
-//                        Intent goToMain = new Intent(getApplicationContext(), MainActivity.class);
-//                        startActivity(goToMain);
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) { }
                 }).show();
-        //return builder.create();
     }
 
     private void showInvalidCredentialsDialog() {
@@ -126,19 +115,6 @@ public class LoginActivity extends Activity {
     private boolean createAccountPasswordsIdentical() {
         return createAcctPasswordInput.getText().toString().equals(createAcctConfPassInput.getText().toString());
     }
-
-    private TextWatcher watcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            anyInputsAreEmpty();
-        }
-    };
 
     @Override
     public void onBackPressed() { }

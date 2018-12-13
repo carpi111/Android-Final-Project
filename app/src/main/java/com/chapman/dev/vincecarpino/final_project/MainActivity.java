@@ -2,19 +2,15 @@ package com.chapman.dev.vincecarpino.final_project;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toolbar;
 
 public class MainActivity extends Activity {
-
-    // TODO: Fix all the layout issues
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override

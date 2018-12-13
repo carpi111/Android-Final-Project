@@ -22,17 +22,6 @@ public class Product {
         this.isSold = 0;
     }
 
-    public Product(int id, String name, String description, int categoryId, int sellerId, int buyerId, float price, int isSold) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.categoryId = categoryId;
-        this.sellerId = sellerId;
-        this.buyerId = buyerId;
-        this.price = price;
-        this.isSold = isSold;
-    }
-
     public int getId() {
         return id;
     }
@@ -91,9 +80,5 @@ public class Product {
 
     public int getIsSold() {
         return isSold;
-    }
-
-    public void setIsSold(int isSold) {
-        this.isSold = isSold;
     }
 }

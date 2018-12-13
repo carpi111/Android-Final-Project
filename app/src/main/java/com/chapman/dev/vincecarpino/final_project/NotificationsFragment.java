@@ -85,6 +85,7 @@ public class NotificationsFragment extends Fragment {
             } else if (arrayContainsItem(newItemNotifs, s)) {
                 notifIcon.setImageResource(R.drawable.ic_new_listing);
             }
+
             notifTitle.setText(s);
 
             notifTitle.setTypeface(null, Typeface.BOLD);
@@ -109,8 +110,6 @@ public class NotificationsFragment extends Fragment {
             newLayout.setClickable(true);
             addLongClickListenerToLayout(newLayout);
 
-//            registerForContextMenu(newLayout);
-
             scrollviewLayout.addView(newLayout);
             scrollviewLayout.addView(padLayout);
         }
@@ -124,7 +123,6 @@ public class NotificationsFragment extends Fragment {
         layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                layoutToRemove = layout;
                 showDeleteNotificationDialog(layout);
                 return true;
             }
@@ -139,7 +137,6 @@ public class NotificationsFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-//        showDeleteNotificationDialog();
         return super.onContextItemSelected(item);
     }
 

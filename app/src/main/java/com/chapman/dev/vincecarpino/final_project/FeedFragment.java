@@ -14,24 +14,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import android.widget.RatingBar;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class FeedFragment extends Fragment {
     private Database db = Database.getInstance(getActivity());
     private LinearLayout scrollviewLayout;
 
-    //Details Dialog
     private TextView itemName;
     private TextView itemPrice;
     private TextView itemSeller;
     private TextView itemCategory;
     private TextView itemDesc;
 
-    //BoughtItem Dialog
     private TextView rateSellerQuestion;
     private RatingBar sellerRating;
 
@@ -94,8 +88,7 @@ public class FeedFragment extends Fragment {
         }
     }
 
-    public void showDetailsDialog(final Product p)
-    {
+    public void showDetailsDialog(final Product p) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View root = inflater.inflate(R.layout.details, null);
@@ -112,8 +105,6 @@ public class FeedFragment extends Fragment {
         itemCategory.setText(db.getCategoryNameById(p.getCategoryId()));
         itemDesc.setText(p.getDescription());
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(root)
                 .setPositiveButton("BUY", new DialogInterface.OnClickListener() {
                     @Override
@@ -129,8 +120,7 @@ public class FeedFragment extends Fragment {
                 }).show();
     }
 
-    public void showBoughtItemDialog(final Product p)
-    {
+    public void showBoughtItemDialog(final Product p) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View root = inflater.inflate(R.layout.buy_item_dialog, null);
@@ -138,13 +128,9 @@ public class FeedFragment extends Fragment {
         rateSellerQuestion = root.findViewById(R.id.rateSellerTxt);
         sellerRating = root.findViewById(R.id.buyRatingBar);
 
-
-
         String sellerQ = "How would you rate " + db.getUserById(p.getSellerId()).getUsername().toUpperCase() + "?";
         rateSellerQuestion.setText(sellerQ);
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(root)
                 .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                     @Override
@@ -156,5 +142,4 @@ public class FeedFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) { }
                 }).show();
     }
-
 }
